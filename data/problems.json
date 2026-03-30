@@ -9,7 +9,7 @@
     "tags": ["prefix xor", "bit manipulation", "queries"],
     "solution": "problems/xor-basic/solution.html",
     "judge_url": "https://cses.fi/problemset/task/1650",
-    "generator": "problems/xor-basic/themis/make_test.py"
+    "generator": "problems/xor-basic/make_test.py"
   },
   {
     "id": "segment-tree-range-update",
