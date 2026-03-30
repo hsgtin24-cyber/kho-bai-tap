@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olympiad Programming Library</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container header-flex">
+            <h1>🏆 Thư Viện Bài Tập Đội Tuyển</h1>
+            <button id="theme-toggle" class="btn">🌙 Dark Mode</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="controls">
+            <input type="text" id="search-input" placeholder="🔍 Tìm kiếm theo tên hoặc tag...">
+            
+            <select id="topic-filter">
+                <option value="all">Tất cả chủ đề</option>
+                <option value="Bitwise">Bitwise</option>
+                <option value="Prefix Sum">Prefix Sum</option>
+                <option value="Segment Tree">Segment Tree</option>
+                <option value="DP">Dynamic Programming (DP)</option>
+                <option value="Greedy">Greedy</option>
+                <option value="Graph">Graph</option>
+            </select>
+
+            <select id="diff-filter">
+                <option value="all">Mọi độ khó</option>
+                <option value="1">⭐ Độ khó 1</option>
+                <option value="2">⭐⭐ Độ khó 2</option>
+                <option value="3">⭐⭐⭐ Độ khó 3</option>
+                <option value="4">⭐⭐⭐⭐ Độ khó 4</option>
+                <option value="5">⭐⭐⭐⭐⭐ Độ khó 5</option>
+            </select>
+
+            <select id="sort-filter">
+                <option value="diff-asc">Sắp xếp: Độ khó tăng dần</option>
+                <option value="diff-desc">Sắp xếp: Độ khó giảm dần</option>
+                <option value="name-asc">Sắp xếp: Tên A-Z</option>
+            </select>
+        </div>
+
+        <div class="table-responsive">
+            <table id="problems-table">
+                <thead>
+                    <tr>
+                        <th>Tên bài</th>
+                        <th>Chủ đề</th>
+                        <th>Độ khó</th>
+                        <th>Nguồn</th>
+                    </tr>
+                </thead>
+                <tbody id="problems-table-body">
+                    </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

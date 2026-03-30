@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: system-ui, sans-serif; line-height: 1.6; color: #333; padding: 20px; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 8px; overflow-x: auto; }
+        code { font-family: "Fira Code", monospace; font-size: 14px; }
+        h2 { color: #2c3e50; }
+    </style>
+</head>
+<body>
+    <h2>Phân tích bài toán</h2>
+    <p>Để trả lời các truy vấn tổng XOR trên đoạn <code>[L, R]</code> trong $O(1)$, ta sử dụng mảng cộng dồn (Prefix XOR). Gọi <code>pref[i]</code> là XOR từ phần tử $1$ đến $i$. Khi đó, XOR trên đoạn <code>[L, R]</code> được tính bằng <code>pref[R] ^ pref[L-1]</code>.</p>
+    
+    <h2>Code mẫu (Python)</h2>
+    <pre><code>import sys
+
+def solve():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    n, q = int(data[0]), int(data[1])
+    arr = [int(x) for x in data[2:n+2]]
+    
+    # Xây dựng mảng Prefix XOR
+    pref = [0] * (n + 1)
+    for i in range(n):
+        pref[i+1] = pref[i] ^ arr[i]
+        
+    # Trả lời truy vấn
+    idx = n + 2
+    out = []
+    for _ in range(q):
+        l, r = int(data[idx]), int(data[idx+1])
+        # Chuyển đổi về 0-based index nếu đề bài dùng 1-based
+        ans = pref[r] ^ pref[l-1]
+        out.append(str(ans))
+        idx += 2
+        
+    print('\n'.join(out))
+
+if __name__ == '__main__':
+    solve()
+</code></pre>
+</body>
+</html>

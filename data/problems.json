@@ -1,0 +1,32 @@
+[
+  {
+    "id": "xor-basic",
+    "title": "XOR Range Queries",
+    "topics": ["Bitwise", "Prefix Sum"],
+    "difficulty": 2,
+    "complexity": "O(N + Q)",
+    "source": "Trại hè Hùng Vương",
+    "tags": ["prefix xor", "bit manipulation", "queries"],
+    "solution": "problems/xor-basic/solution.html"
+  },
+  {
+    "id": "segment-tree-range-update",
+    "title": "IT Lazy Propagation",
+    "topics": ["Segment Tree", "Data Structures"],
+    "difficulty": 4,
+    "complexity": "O(Q log N)",
+    "source": "VOI 2023",
+    "tags": ["lazy propagation", "range add", "range max"],
+    "solution": "problems/segment-tree-range-update/solution.html"
+  },
+  {
+    "id": "knapsack-dp",
+    "title": "Balo Tối Ưu",
+    "topics": ["DP", "Greedy"],
+    "difficulty": 3,
+    "complexity": "O(N * W)",
+    "source": "HSG Quốc Gia",
+    "tags": ["0/1 knapsack", "dynamic programming"],
+    "solution": "problems/knapsack-dp/solution.html"
+  }
+]

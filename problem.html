@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết bài toán</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container header-flex">
+            <div>
+                <a href="index.html" class="btn outline">← Quay lại danh sách</a>
+                <h1 id="problem-title">Đang tải...</h1>
+            </div>
+            <button id="theme-toggle" class="btn">🌙 Dark Mode</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="metadata-card">
+            <div class="meta-row">
+                <span class="meta-label">Độ phức tạp:</span>
+                <code id="problem-complexity" class="complexity-badge">...</code>
+            </div>
+            <div class="meta-row">
+                <span class="meta-label">Độ khó:</span>
+                <span id="problem-difficulty">...</span>
+            </div>
+            <div class="meta-row">
+                <span class="meta-label">Tags:</span>
+                <div id="problem-tags" class="tags-container"></div>
+            </div>
+            <div class="action-row" style="margin-top: 15px;">
+                <button id="open-full-btn" class="btn primary">Mở giải thuật toàn màn hình</button>
+            </div>
+        </div>
+
+        <div class="iframe-container">
+            <iframe id="solution-iframe" src="" title="Solution"></iframe>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
