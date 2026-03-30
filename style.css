@@ -71,6 +71,10 @@ header {
     justify-content: center;
     text-decoration: none;
     gap: 6px;
+    /* --- THÊM 3 DÒNG NÀY VÀO ĐỂ ĐỒNG BỘ 100% --- */
+    font-family: inherit; /* Ép dùng chung font hệ thống với web */
+    font-size: 1rem;      /* Ép dùng chung cỡ chữ (16px) */
+    box-sizing: border-box; /* Đảm bảo padding không làm phình nút */
 }
 
 .btn:hover { opacity: 0.8; }
