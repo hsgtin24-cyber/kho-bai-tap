@@ -111,3 +111,28 @@ tr:hover { background-color: var(--hover-bg); }
 .meta-label { font-weight: 600; width: 120px; color: var(--text-muted); }
 .iframe-container { width: 100%; height: 70vh; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
 iframe { width: 100%; height: 100%; border: none; }
+/* Thêm vào cuối phần "Buttons & Inputs" trong style.css */
+
+.btn.secondary {
+    border-color: #198754; /* Màu xanh lá cho các hành động thực hành */
+    color: #198754;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+[data-theme="dark"] .btn.secondary {
+    border-color: #20c997;
+    color: #20c997;
+}
+
+.btn.secondary:hover {
+    background-color: #198754;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .btn.secondary:hover {
+    background-color: #20c997;
+    color: #121212;
+}
