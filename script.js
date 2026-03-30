@@ -173,7 +173,14 @@ async function initDetail() {
                 tagsContainer.appendChild(tagSpan);
             });
 
-          
+            // --- XỬ LÝ NÚT MỞ GIẢI THUẬT ---
+            const openFullBtn = document.getElementById('open-full-btn');
+            if (problem.solution) {
+                openFullBtn.href = problem.solution;
+                openFullBtn.style.display = 'inline-flex';
+            } else {
+                openFullBtn.style.display = 'none';
+            }
 
             // --- XỬ LÝ NÚT CHẤM ONLINE VÀ CODE SINH TEST ---
             const extraContainer = document.getElementById('extra-resources');
@@ -183,22 +190,20 @@ async function initDetail() {
             if (problem.judge_url) {
                 const judgeBtn = document.createElement('a');
                 judgeBtn.href = problem.judge_url;
-                judgeBtn.className = 'btn outline secondary extra-btn';
+                judgeBtn.className = 'btn secondary'; // Đã dọn dẹp class cho chuẩn CSS
                 judgeBtn.textContent = '🚀 Nộp bài Online';
                 judgeBtn.target = '_blank'; // Mở tab mới
                 judgeBtn.rel = 'noopener noreferrer'; // Bảo mật khi mở tab mới
                 extraContainer.appendChild(judgeBtn);
             }
 
-            // Nút tải/xem code sinh test (Python/C++)
+            // Nút tải/xem code sinh test
             if (problem.generator) {
                 const genBtn = document.createElement('a');
                 genBtn.href = problem.generator;
-                genBtn.className = 'btn outline secondary extra-btn';
+                genBtn.className = 'btn secondary'; // Đã dọn dẹp class cho chuẩn CSS
                 genBtn.textContent = '⚙️ Code sinh Test';
                 genBtn.target = '_blank';
-                // Thêm thuộc tính download nếu bạn muốn ép trình duyệt tải file về thay vì hiển thị code
-                // genBtn.download = ''; 
                 extraContainer.appendChild(genBtn);
             }
             // ----------------------------------------------
@@ -206,9 +211,6 @@ async function initDetail() {
             const iframe = document.getElementById('solution-iframe');
             iframe.src = problem.solution;
 
-            document.getElementById('open-full-btn').addEventListener('click', () => {
-                window.open(problem.solution, '_blank');
-            });
         } else {
             document.getElementById('problem-title').textContent = 'Bài toán không tồn tại';
         }
