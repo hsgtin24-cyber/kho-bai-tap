@@ -16,7 +16,7 @@
     "title": "Làm sạch dữu liệu",
     "topics": ["Danh sách", "Set", "2 con trỏ"],
     "difficulty": 1,
-    "complexity": "O(N + Q)",
+    "complexity": "O(N)",
     "source": "Internet",
     "tags": ["List", "Set", "Two pointers"],
     "solution": "problems/1/giai.html",
