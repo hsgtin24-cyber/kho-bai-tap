@@ -15,7 +15,7 @@
     "id": "1",
     "title": "Làm sạch dữu liệu",
     "topics": ["Danh sách", "Set", "2 con trỏ"],
-    "difficulty": 2,
+    "difficulty": 1,
     "complexity": "O(N + Q)",
     "source": "CSES",
     "tags": ["List", "Set", "Two pointers"],
