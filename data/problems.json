@@ -46,7 +46,7 @@
       "Matrix"
     ],
     "difficulty": 1,
-    "complexity": "o(1)",
+    "complexity": "O(1)",
     "source": "Internet",
     "tags": [
       "math",
