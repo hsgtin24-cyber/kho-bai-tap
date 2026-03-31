@@ -12,23 +12,15 @@
     "generator": "problems/xor-basic/make_test.py"
   },
   {
-    "id": "segment-tree-range-update",
-    "title": "IT Lazy Propagation",
-    "topics": ["Segment Tree", "Data Structures"],
-    "difficulty": 4,
-    "complexity": "O(Q log N)",
-    "source": "VOI 2023",
-    "tags": ["lazy propagation", "range add", "range max"],
-    "solution": "problems/segment-tree-range-update/solution.html"
-  },
-  {
-    "id": "knapsack-dp",
-    "title": "Balo Tối Ưu",
-    "topics": ["DP", "Greedy"],
-    "difficulty": 3,
-    "complexity": "O(N * W)",
-    "source": "HSG Quốc Gia",
-    "tags": ["0/1 knapsack", "dynamic programming"],
-    "solution": "problems/knapsack-dp/solution.html"
+    "id": "1",
+    "title": "Làm sạch dữu liệu",
+    "topics": ["Danh sách", "Set", "2 con trỏ],
+    "difficulty": 2,
+    "complexity": "O(N + Q)",
+    "source": "CSES",
+    "tags": ["List", "Set", "Two pointers"],
+    "solution": "problems/1/giai.html",
+    "judge_url": "",
+    "generator": ""
   }
 ]
