@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Giảng: LÀM SẠCH DỮ LIỆU (UNIQUE ELEMENTS)</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .terminal-scroll::-webkit-scrollbar { width: 8px; }
+        .terminal-scroll::-webkit-scrollbar-track { background: #1f2937; }
+        .terminal-scroll::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 4px; }
+        .code-font { font-family: 'Fira Code', monospace; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 pb-20">
+
+    <header class="bg-gradient-to-r from-indigo-600 to-blue-500 text-white shadow-lg py-8 px-6 mb-8">
+        <div class="max-w-5xl mx-auto">
+            <h1 class="text-3xl font-bold uppercase tracking-wide">LÀM SẠCH DỮ LIỆU (UNIQUE)</h1>
+            <div class="mt-2 flex gap-4 text-sm font-medium">
+                <span class="bg-white/20 px-3 py-1 rounded-full">Kỳ thi: HSG Tin Học</span>
+                <span class="bg-white/20 px-3 py-1 rounded-full">Điểm: 100</span>
+                <span class="bg-white/20 px-3 py-1 rounded-full">Thời gian: 1.0s</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-6 space-y-10">
+
+        <section class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-indigo-500 pb-2 mb-4">📖 Đề bài</h2>
+            <div class="prose max-w-none text-gray-600 space-y-4">
+                <p>Trong một thư viện số hiện đại, một robot có nhiệm vụ thu thập các mã số định danh của các cuốn sách quý. Do quá trình quét dữ liệu diễn ra liên tục, hệ thống vô tình ghi nhận nhiều mã số bị lặp lại. Các mã số này vốn đã được robot <strong>sắp xếp theo thứ tự không giảm (tăng dần)</strong>.</p>
+                <p>Để tiết kiệm bộ nhớ lưu trữ, người quản trị yêu cầu bạn hãy loại bỏ tất cả các mã số trùng lặp, chỉ giữ lại duy nhất một đại diện cho mỗi loại mã. Hãy xác định xem sau khi "làm sạch" dữ liệu, thư viện còn lại bao nhiêu mã số khác nhau?</p>
+                
+                <h3 class="text-lg font-semibold text-gray-800 mt-4">Dữ liệu vào (Input)</h3>
+                <ul class="list-disc pl-6">
+                    <li>Dòng đầu tiên chứa số nguyên dương $n$ là số lượng phần tử của dãy ban đầu ($1 \le n \le 10^6$).</li>
+                    <li>Dòng thứ hai chứa $n$ số nguyên $a_1, a_2, ..., a_n$ ($-10^9 \le a_i \le 10^9$) đã được sắp xếp tăng dần, các số cách nhau bởi dấu cách.</li>
+                </ul>
+
+                <h3 class="text-lg font-semibold text-gray-800 mt-4">Dữ liệu ra (Output)</h3>
+                <ul class="list-disc pl-6">
+                    <li>Ghi một số nguyên duy nhất là số lượng các phần tử khác nhau trong dãy.</li>
+                </ul>
+            </div>
+
+            <div class="mt-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Ví dụ (Sample Test)</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse border border-gray-300">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700">
+                                <th class="border border-gray-300 px-4 py-2 w-1/2">UNIQUE.INP</th>
+                                <th class="border border-gray-300 px-4 py-2 w-1/2">UNIQUE.OUT</th>
+                            </tr>
+                        </thead>
+                        <tbody class="code-font text-sm">
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2 align-top whitespace-pre-wrap">10
+0 0 1 1 1 2 2 3 3 4</td>
+                                <td class="border border-gray-300 px-4 py-2 align-top">5</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-indigo-500 pb-2 mb-4">🧠 Phân tích Logic & Thuật toán</h2>
+            <div class="space-y-4 text-gray-700">
+                <p><strong>Dạng bài:</strong> Xử lý mảng (Array), Cấu trúc dữ liệu (Set), Kỹ thuật Hai con trỏ / Duyệt tuyến tính (Linear Scan).</p>
+                <p><strong>Phân tích tính chất:</strong> Bài toán yêu cầu đếm số lượng phần tử phân biệt. Chúng ta có thể tiếp cận theo 3 hướng: sử dụng mảng phụ để lưu trữ (chậm), sử dụng cấu trúc dữ liệu Set (nhanh nhưng tốn bộ nhớ), hoặc tận dụng tính chất <strong>đã sắp xếp tăng dần</strong> của dữ liệu đầu vào để giải quyết tại chỗ (nhanh và tối ưu bộ nhớ nhất).</p>
+                
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                    <h4 class="font-bold text-yellow-800 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        Lưu ý giới hạn (Constraints Warning)
+                    </h4>
+                    <ul class="list-disc pl-5 mt-2 text-sm text-yellow-800 space-y-1">
+                        <li><strong>Giới hạn thời gian:</strong> $N \le 10^6$. Giải thuật có độ phức tạp $O(N^2)$ sẽ thực hiện khoảng $10^{12}$ phép toán và chắc chắn bị Time Limit Exceeded (TLE). Phải thiết kế giải thuật $O(N)$.</li>
+                        <li><strong>Kiểu dữ liệu:</strong> Giá trị $A_i$ có thể lên tới $10^9$. Python tự động quản lý số lớn nên không lo tràn số (Integer Overflow). Trong C++/Java cần dùng kiểu `long long` nếu có phép tính tổng, tuy nhiên ở đây chỉ so sánh nên `int` 32-bit là đủ.</li>
+                        <li><strong>Bộ nhớ:</strong> Cần cẩn trọng với các cấu trúc dữ liệu sinh thêm như Set khi $N = 10^6$, nó có thể tốn khá nhiều RAM (Memory Limit).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-indigo-500 pb-2 mb-4">⚙️ Hướng dẫn giải chi tiết</h2>
+            
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold text-red-600 mb-3">Cách 1: Thuật toán Ngây thơ (Dùng Mảng) - Cho 30% số điểm</h3>
+                <p class="text-gray-700 mb-3"><strong>Ý tưởng:</strong> Khởi tạo một mảng <code>result</code> rỗng. Duyệt qua từng phần tử của mảng ban đầu, nếu phần tử đó chưa xuất hiện trong <code>result</code> thì thêm vào. Thuật toán này bỏ qua tính chất "đã sắp xếp". Do phép kiểm tra tồn tại trong mảng mất $O(K)$, tổng thời gian là $O(N^2)$.</p>
+                <blockquote class="bg-gray-100 border-l-4 border-gray-400 italic p-3 rounded mb-3 text-sm text-gray-600">
+                    Khởi tạo mảng result = []<br>
+                    Với mỗi x trong a:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Nếu x không nằm trong result:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thêm x vào result<br>
+                    In ra độ dài result
+                </blockquote>
+<pre><code class="language-python rounded-lg shadow-md text-sm code-font"># Cách 1: Bỏ qua tính chất sắp xếp - O(N^2) - Sẽ bị TLE
+n = int(input())
+a = list(map(int, input().split()))
+
+result = []
+for x in a:
+    if x not in result: # Tìm kiếm tuyến tính tốn O(K)
+        result.append(x)
+
+print(len(result))</code></pre>
+            </div>
+
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold text-blue-600 mb-3">Cách 2: Sử dụng Cấu trúc dữ liệu Set (Tập hợp) - Cho 60-100% số điểm</h3>
+                <p class="text-gray-700 mb-3"><strong>Ý tưởng:</strong> <code>Set</code> trong Python được cài đặt bằng Hash Table, giúp thao tác thêm và kiểm tra tồn tại chỉ mất $O(1)$ trung bình. Ta chỉ cần ném toàn bộ mảng vào `Set`, tự động các phần tử trùng lặp sẽ bị loại bỏ. Mặc dù thời gian là $O(N)$, nhưng việc cấp phát Hash Table cho $10^6$ phần tử tốn nhiều không gian bộ nhớ phụ $O(N)$.</p>
+                <blockquote class="bg-gray-100 border-l-4 border-gray-400 italic p-3 rounded mb-3 text-sm text-gray-600">
+                    Khởi tạo tập hợp my_set = tập rỗng<br>
+                    Với mỗi x trong a:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Thêm x vào my_set (Set tự động loại bỏ trùng lặp)<br>
+                    In ra kích thước của my_set
+                </blockquote>
+<pre><code class="language-python rounded-lg shadow-md text-sm code-font"># Cách 2: Dùng Set - O(N) Thời gian, O(N) Không gian
+import sys
+
+input_data = sys.stdin.read().split()
+if not input_data:
+    sys.exit()
+
+n = int(input_data[0])
+a = [int(x) for x in input_data[1:n+1]]
+
+# Chuyển list thành set để tự động lọc trùng
+unique_elements = set(a)
+
+print(len(unique_elements))</code></pre>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-semibold text-green-600 mb-3">Cách 3: Linear Scan (Quét tuyến tính tận dụng mảng đã sắp xếp) - Cho 100% số điểm</h3>
+                <p class="text-gray-700 mb-3"><strong>Ý tưởng:</strong> Lợi dụng tính chất mảng <strong>đã được sắp xếp</strong>, các phần tử giống nhau chắc chắn đứng cạnh nhau. Ta chỉ cần duyệt mảng một lần, so sánh phần tử hiện tại <code>a[i]</code> với phần tử liền trước <code>a[i-1]</code>. Nếu khác nhau, ta đếm thêm 1. Giải pháp này không cần cấu trúc dữ liệu phụ, đạt độ phức tạp không gian lý tưởng $O(1)$.</p>
+                <blockquote class="bg-gray-100 border-l-4 border-gray-400 italic p-3 rounded mb-3 text-sm text-gray-600">
+                    Nếu n == 0 thì in 0 và kết thúc.<br>
+                    Khởi tạo count = 1 (Luôn tính phần tử đầu tiên)<br>
+                    Chạy i từ 1 đến n - 1:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Nếu a[i] != a[i-1]:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count = count + 1<br>
+                    In ra count
+                </blockquote>
+<pre><code class="language-python rounded-lg shadow-md text-sm code-font"># Cách 3: Linear Scan - O(N) Thời gian, O(1) Không gian
+import sys
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+        
+    n = int(input_data[0])
+    if n == 0:
+        print(0)
+        return
+        
+    a = [int(x) for x in input_data[1:n+1]]
+    
+    count = 1
+    for i in range(1, n):
+        if a[i] != a[i-1]:
+            count += 1
+            
+    print(count)
+
+if __name__ == '__main__':
+    solve()</code></pre>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-indigo-500 pb-2 mb-4">📊 So sánh độ phức tạp</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse rounded-lg overflow-hidden shadow-sm">
+                    <thead class="bg-indigo-50 text-indigo-900">
+                        <tr>
+                            <th class="p-3 font-semibold">Phương pháp</th>
+                            <th class="p-3 font-semibold">Thời gian (Time)</th>
+                            <th class="p-3 font-semibold">Không gian (Space)</th>
+                            <th class="p-3 font-semibold">Kết quả dự kiến</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="p-3 font-medium text-gray-800">Cách 1: Brute Force (Dùng List)</td>
+                            <td class="p-3 text-red-600 font-mono">$\mathcal{O}(N^2)$</td>
+                            <td class="p-3 text-yellow-600 font-mono">$\mathcal{O}(N)$</td>
+                            <td class="p-3"><span class="bg-red-100 text-red-700 px-2 py-1 rounded text-sm font-bold">TLE</span> (Quá thời gian)</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="p-3 font-medium text-gray-800">Cách 2: Dùng cấu trúc Set</td>
+                            <td class="p-3 text-green-600 font-mono">$\mathcal{O}(N)$</td>
+                            <td class="p-3 text-red-600 font-mono">$\mathcal{O}(N)$</td>
+                            <td class="p-3"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-sm font-bold">AC/MLE</span> (Tốn RAM)</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition bg-green-50">
+                            <td class="p-3 font-medium text-green-800">Cách 3: Linear Scan (Tối ưu)</td>
+                            <td class="p-3 text-green-600 font-mono">$\mathcal{O}(N)$</td>
+                            <td class="p-3 text-green-600 font-mono">$\mathcal{O}(1)$</td>
+                            <td class="p-3"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm font-bold">AC</span> (Hoàn hảo)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-indigo-500 pb-2 mb-6">💻 Trình Mô Phỏng (Algorithm Visualizer)</h2>
+            
+            <div class="flex flex-col md:flex-row gap-6">
+                <div class="w-full md:w-1/3 space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Mảng đầu vào (đã sắp xếp)</label>
+                        <input type="text" id="sim-input" value="0 0 1 1 1 2 2 3 3 4" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 font-mono text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Thuật toán</label>
+                        <select id="sim-algo" class="w-full px-4 py-2 border border-gray-300 rounded-md bg-white focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="brute">Cách 1: Dùng Mảng (Brute Force)</option>
+                            <option value="set">Cách 2: Dùng Hash Set</option>
+                            <option value="linear" selected>Cách 3: Quét tuyến tính tối ưu</option>
+                        </select>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-2 mt-4">
+                        <button onclick="simLoad()" class="col-span-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded transition">
+                            1. Nạp dữ liệu
+                        </button>
+                        <button onclick="simStep()" id="btn-step" disabled class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-4 rounded transition disabled:opacity-50 disabled:cursor-not-allowed">
+                            2. Bước tiếp
+                        </button>
+                        <button onclick="simAuto()" id="btn-auto" disabled class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded transition disabled:opacity-50 disabled:cursor-not-allowed">
+                            3. Chạy tự động
+                        </button>
+                    </div>
+
+                    <div class="bg-indigo-50 p-4 rounded-lg mt-4 border border-indigo-100 min-h-[100px]">
+                        <p class="text-sm text-indigo-800 font-medium border-b border-indigo-200 pb-1 mb-2">Trạng thái bộ nhớ:</p>
+                        <div id="state-display" class="font-mono text-sm text-indigo-900 break-words">
+                            <span class="text-gray-500 italic">Chưa nạp dữ liệu</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-2/3">
+                    <div class="bg-gray-900 rounded-lg shadow-inner h-[400px] flex flex-col relative overflow-hidden">
+                        <div class="bg-gray-800 px-4 py-2 flex items-center gap-2 border-b border-gray-700">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <span class="text-gray-400 text-xs font-mono ml-2" id="terminal-title">Terminal - Execution Trace</span>
+                        </div>
+                        <div id="terminal" class="p-4 font-mono text-sm flex-1 overflow-y-auto terminal-scroll space-y-1">
+                            <div class="text-gray-500">Nhấn 'Nạp dữ liệu' để chọn thuật toán và bắt đầu...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            hljs.highlightAll();
+        });
+
+        // =====================================
+        // LOGIC TRÌNH MÔ PHỎNG (VISUALIZER)
+        // =====================================
+        const terminal = document.getElementById('terminal');
+        const stateDisplay = document.getElementById('state-display');
+        const btnStep = document.getElementById('btn-step');
+        const btnAuto = document.getElementById('btn-auto');
+        const selectAlgo = document.getElementById('sim-algo');
+        
+        let simArray = [];
+        let simIndex = 0;
+        let isFinished = false;
+        let autoInterval = null;
+        let currentAlgo = 'linear';
+
+        // State cho từng thuật toán
+        let stateBrute = [];
+        let stateSet = new Set();
+        let stateCount = 0;
+
+        function printLog(msg, type = 'info') {
+            const colors = {
+                system: 'text-purple-400 font-bold',
+                info: 'text-cyan-300',
+                warn: 'text-yellow-400',
+                error: 'text-red-400',
+                success: 'text-green-400 font-bold'
+            };
+            
+            const line = document.createElement('div');
+            line.className = colors[type] || 'text-white';
+            
+            // Xử lý highlight biến
+            let formattedMsg = msg.replace(/a\[(\d+)\]/g, '<span class="text-pink-300">a[$1]</span>');
+            
+            line.innerHTML = `<span class="text-gray-500 mr-2">></span>${formattedMsg}`;
+            terminal.appendChild(line);
+            
+            // Cuộn xuống cuối
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function clearTerminal() {
+            terminal.innerHTML = '';
+        }
+
+        function updateStateUI() {
+            if (currentAlgo === 'brute') {
+                stateDisplay.innerHTML = `<strong>result = </strong> [${stateBrute.join(', ')}]<br><strong>len:</strong> <span class="text-red-600 font-bold text-lg">${stateBrute.length}</span>`;
+            } else if (currentAlgo === 'set') {
+                stateDisplay.innerHTML = `<strong>my_set = </strong> {${Array.from(stateSet).join(', ')}}<br><strong>size:</strong> <span class="text-red-600 font-bold text-lg">${stateSet.size}</span>`;
+            } else if (currentAlgo === 'linear') {
+                stateDisplay.innerHTML = `<strong>count = </strong> <span class="text-red-600 font-bold text-lg">${stateCount}</span>`;
+            }
+        }
+
+        function stopAuto() {
+            if(autoInterval) {
+                clearInterval(autoInterval);
+                autoInterval = null;
+                btnAuto.textContent = "3. Chạy tự động";
+                btnAuto.classList.replace('bg-red-500', 'bg-green-500');
+                btnAuto.classList.replace('hover:bg-red-600', 'hover:bg-green-600');
+            }
+        }
+
+        function simLoad() {
+            stopAuto();
+            clearTerminal();
+            isFinished = false;
+            
+            const inputVal = document.getElementById('sim-input').value.trim();
+            if (!inputVal) {
+                printLog("Lỗi: Mảng đầu vào trống!", "error");
+                btnStep.disabled = true;
+                btnAuto.disabled = true;
+                return;
+            }
+
+            simArray = inputVal.split(/\s+/).map(Number);
+            currentAlgo = selectAlgo.value;
+            
+            printLog(`Khởi tạo hệ thống: N = ${simArray.length}`, "system");
+            printLog(`Mảng A = [${simArray.join(', ')}]`, "info");
+            printLog(`Đang chạy: ${selectAlgo.options[selectAlgo.selectedIndex].text}`, "system");
+
+            if (simArray.length === 0) {
+                printLog(`Mảng rỗng. Kết quả = 0`, "success");
+                isFinished = true;
+                return;
+            }
+
+            // Reset state dựa trên algo
+            if (currentAlgo === 'brute') {
+                stateBrute = [];
+                simIndex = 0;
+                printLog(`Khởi tạo mảng kết quả: result = []`, "system");
+            } else if (currentAlgo === 'set') {
+                stateSet = new Set();
+                simIndex = 0;
+                printLog(`Khởi tạo Hash Set rỗng: my_set = set()`, "system");
+            } else if (currentAlgo === 'linear') {
+                stateCount = 1;
+                simIndex = 1;
+                printLog(`Khởi tạo count = 1 (đếm phần tử a[0] = ${simArray[0]})`, "system");
+            }
+
+            updateStateUI();
+            btnStep.disabled = false;
+            btnAuto.disabled = false;
+        }
+
+        function stepBrute() {
+            let current = simArray[simIndex];
+            printLog(`--- Vòng lặp i = ${simIndex} ---`, "system");
+            printLog(`Lấy phần tử a[${simIndex}] = ${current}`, "info");
+            printLog(`Duyệt toàn bộ mảng result để tìm kiếm ${current}...`, "warn");
+
+            if (!stateBrute.includes(current)) {
+                stateBrute.push(current);
+                printLog(`Không tìm thấy! Thêm ${current} vào result.`, "success");
+            } else {
+                printLog(`Đã tồn tại trong result. Bỏ qua.`, "error");
+            }
+            simIndex++;
+        }
+
+        function stepSet() {
+            let current = simArray[simIndex];
+            printLog(`--- Vòng lặp i = ${simIndex} ---`, "system");
+            printLog(`Lấy phần tử a[${simIndex}] = ${current}`, "info");
+            printLog(`Tính mã băm (Hash) và chèn vào Set...`, "warn");
+
+            if (!stateSet.has(current)) {
+                stateSet.add(current);
+                printLog(`Phần tử mới, Set đã lưu trữ thành công.`, "success");
+            } else {
+                printLog(`Set phát hiện trùng lặp. Không lưu trữ thêm.`, "error");
+            }
+            simIndex++;
+        }
+
+        function stepLinear() {
+            let current = simArray[simIndex];
+            let prev = simArray[simIndex - 1];
+            
+            printLog(`--- Vòng lặp i = ${simIndex} ---`, "system");
+            printLog(`So sánh a[${simIndex}] (${current}) và a[${simIndex - 1}] (${prev})`, "info");
+            
+            if (current !== prev) {
+                stateCount++;
+                printLog(`Khác nhau! Phát hiện mã mới. Tăng count lên ${stateCount}`, "success");
+            } else {
+                printLog(`Trùng lặp (giống phần tử liền trước). Bỏ qua.`, "warn");
+            }
+            simIndex++;
+        }
+
+        function simStep() {
+            if (isFinished) return;
+
+            if (simIndex < simArray.length) {
+                if (currentAlgo === 'brute') stepBrute();
+                else if (currentAlgo === 'set') stepSet();
+                else if (currentAlgo === 'linear') stepLinear();
+                
+                updateStateUI();
+            } else {
+                printLog(`==========================`, "system");
+                printLog(`Hoàn thành duyệt mảng!`, "system");
+                
+                let finalAns = 0;
+                if (currentAlgo === 'brute') finalAns = stateBrute.length;
+                else if (currentAlgo === 'set') finalAns = stateSet.size;
+                else if (currentAlgo === 'linear') finalAns = stateCount;
+
+                printLog(`Số lượng mã số duy nhất là: ${finalAns}`, "success");
+                isFinished = true;
+                btnStep.disabled = true;
+                stopAuto();
+                btnAuto.disabled = true;
+            }
+        }
+
+        function simAuto() {
+            if (isFinished) return;
+            
+            if (autoInterval) {
+                stopAuto();
+            } else {
+                btnAuto.textContent = "Dừng tự động";
+                btnAuto.classList.replace('bg-green-500', 'bg-red-500');
+                btnAuto.classList.replace('hover:bg-green-600', 'hover:bg-red-600');
+                
+                autoInterval = setInterval(() => {
+                    if (isFinished) {
+                        stopAuto();
+                    } else {
+                        simStep();
+                    }
+                }, 800); // Tốc độ chạy tự động
+            }
+        }
+    </script>
+</body>
+</html>
