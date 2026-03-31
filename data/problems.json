@@ -17,7 +17,7 @@
     "topics": ["Danh sách", "Set", "2 con trỏ"],
     "difficulty": 1,
     "complexity": "O(N + Q)",
-    "source": "CSES",
+    "source": "Internet",
     "tags": ["List", "Set", "Two pointers"],
     "solution": "problems/1/giai.html",
     "judge_url": "",
