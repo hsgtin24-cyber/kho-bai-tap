@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Giảng: Tháp Gạch - Xây Dựng</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .terminal-scroll::-webkit-scrollbar { width: 8px; }
+        .terminal-scroll::-webkit-scrollbar-track { background: #1f2937; border-radius: 8px; }
+        .terminal-scroll::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 8px; }
+        .terminal-scroll::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-orange-200 selection:text-orange-900">
+
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-12">
+        
+        <header class="bg-gradient-to-r from-orange-600 to-amber-500 rounded-2xl p-8 text-white shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold mb-2">Tháp Gạch (BRICKS)</h1>
+                <p class="text-orange-100 text-lg">Kỳ thi: Học sinh giỏi Tin học | Thời gian chạy: 1.0s | Bộ nhớ: 256MB</p>
+            </div>
+            <div class="mt-4 md:mt-0 px-6 py-2 bg-white/20 backdrop-blur-md rounded-full border border-white/30 font-semibold shadow-inner">
+                Điểm tối đa: 100
+            </div>
+        </header>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-800 border-b-2 border-orange-100 pb-3 mb-6 flex items-center gap-2">
+                <span>📍</span> Phần 0: Đề Bài Chi Tiết
+            </h2>
+            <div class="prose prose-slate max-w-none space-y-4">
+                <p>Một công ty xây dựng nổi tiếng vừa hoàn thành một lô gạch chất lượng cao. Để quảng bá sản phẩm, kiến trúc sư trưởng quyết định sắp xếp các viên gạch thành một hình tháp nghệ thuật trước sảnh công ty.</p>
+                <p>Quy trình xếp tháp tuân theo quy tắc:</p>
+                <ul class="list-disc pl-6 space-y-1 text-slate-700">
+                    <li>Tháp có tổng cộng <strong>$N$</strong> hàng gạch.</li>
+                    <li>Hàng trên cùng (hàng thứ 1) có <strong>$A$</strong> viên gạch.</li>
+                    <li>Mỗi hàng phía dưới luôn có số gạch nhiều hơn hàng kề ngay trên nó đúng <strong>$B$</strong> viên.</li>
+                </ul>
+                <p><strong>Yêu cầu:</strong> Hãy tính tổng số lượng viên gạch cần thiết để hoàn thành tháp gạch nghệ thuật này.</p>
+                
+                <h3 class="font-semibold mt-6">Dữ liệu vào (Input) - Đọc từ <code>BRICKS.INP</code></h3>
+                <p>Một dòng duy nhất chứa ba số nguyên dương $N$, $A$ và $B$ cách nhau bởi dấu cách ($1 \le N, A, B \le 10^9$).</p>
+                
+                <h3 class="font-semibold mt-4">Dữ liệu ra (Output) - Ghi ra <code>BRICKS.OUT</code></h3>
+                <p>Một số nguyên duy nhất là tổng số viên gạch đã dùng.</p>
+
+                <h3 class="font-semibold mt-6 text-lg">Bảng Ví Dụ (Sample Test)</h3>
+                <div class="overflow-hidden rounded-lg border border-slate-200 shadow-sm mt-2">
+                    <table class="min-w-full text-left text-sm whitespace-nowrap">
+                        <thead class="bg-slate-100 border-b border-slate-200">
+                            <tr>
+                                <th class="px-6 py-3 font-semibold text-slate-800">BRICKS.INP</th>
+                                <th class="px-6 py-3 font-semibold text-slate-800">BRICKS.OUT</th>
+                                <th class="px-6 py-3 font-semibold text-slate-800 w-1/2">Giải thích</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr>
+                                <td class="px-6 py-4 font-mono text-orange-600 bg-slate-50">5 1 1</td>
+                                <td class="px-6 py-4 font-mono font-bold text-emerald-600 bg-slate-50">15</td>
+                                <td class="px-6 py-4 text-slate-600 whitespace-normal">
+                                    Tháp có 5 hàng. Số gạch từng hàng lần lượt là: 1, 2, 3, 4, 5. Tổng = 15.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-800 border-b-2 border-orange-100 pb-3 mb-6 flex items-center gap-2">
+                <span>🧠</span> Phần 1: Phân Tích Toán Học & Logic
+            </h2>
+            <div class="space-y-4 text-slate-700">
+                <p><strong>Dạng bài:</strong> <code>Công thức Toán học</code> / <code>Tổng cấp số cộng (Arithmetic Progression)</code>.</p>
+                
+                <h3 class="text-lg font-semibold text-slate-800">1. Phân tích dãy số:</h3>
+                <p>Gọi số gạch ở hàng thứ $i$ là $u_i$. Theo đề bài, ta có:</p>
+                <ul class="list-disc pl-8 space-y-1">
+                    <li>$u_1 = A$</li>
+                    <li>$u_2 = A + B$</li>
+                    <li>$u_3 = A + 2B$</li>
+                    <li>...</li>
+                    <li>$u_N = A + (N - 1)B$</li>
+                </ul>
+                <p>Dãy số này tạo thành một <strong>cấp số cộng</strong> với số hạng đầu là $A$ và công sai là $B$.</p>
+
+                <h3 class="text-lg font-semibold text-slate-800 mt-6">2. Công thức tính tổng $O(1)$:</h3>
+                <p>Tổng số viên gạch của tháp là tổng của $N$ số hạng đầu tiên trong cấp số cộng này. Công thức tính tổng cấp số cộng là:</p>
+                <div class="bg-slate-50 p-4 rounded-lg flex justify-center items-center border border-slate-200">
+                    $$S = \frac{N \times (2A + (N - 1)B)}{2}$$
+                </div>
+
+                <div class="mt-6 border-l-4 border-amber-400 bg-amber-50 p-5 rounded-r-lg">
+                    <div class="flex items-center gap-2 mb-2">
+                        <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        <h4 class="font-bold text-amber-800">CẢNH BÁO KIỂU DỮ LIỆU (DATA TYPE WARNING)</h4>
+                    </div>
+                    <p class="text-amber-700 text-sm">
+                        Do $N, A, B$ có thể lên đến $10^9$, tích số trong công thức có thể lên tới $O(10^{27})$ nếu không cẩn thận, hoặc ít nhất là $10^{18}$ (khi tính tổng lớn). Phép tính này vượt xa giới hạn của số nguyên 32-bit (chỉ khoảng $2 \times 10^9$). Trong C++, bạn <strong>bắt buộc</strong> phải sử dụng kiểu <code>long long</code>, còn trong Python thì kiểu <code>int</code> tự động xử lý số lớn không giới hạn.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-800 border-b-2 border-orange-100 pb-3 mb-6 flex items-center gap-2">
+                <span>⚙️</span> Phần 2: Phân Tích Cách Giải Theo Subtask
+            </h2>
+            
+            <div class="space-y-10">
+                <div>
+                    <h3 class="text-xl font-bold text-rose-600 mb-3">Cách 1: Vét cạn (Dùng vòng lặp) - Phù hợp Subtask N nhỏ ($N \le 10^6$)</h3>
+                    <p class="text-slate-700 mb-3"><strong>1. Ý tưởng logic:</strong> Khởi tạo biến <code>total = 0</code> và <code>current_bricks = A</code>. Chạy một vòng lặp $N$ lần, mỗi lần cộng <code>current_bricks</code> vào tổng, sau đó tăng <code>current_bricks</code> thêm $B$.</p>
+                    
+                    <blockquote class="bg-slate-50 border-l-4 border-slate-300 p-4 rounded-r-lg font-mono text-sm text-slate-600 mb-4 whitespace-pre">
+2. Mã giả (Pseudocode):
+total = 0
+current_bricks = A
+For i từ 1 đến N:
+    total = total + current_bricks
+    current_bricks = current_bricks + B
+Trả về total
+                    </blockquote>
+                    
+                    <div class="relative">
+                        <div class="absolute top-0 right-0 bg-slate-800 text-slate-300 text-xs px-3 py-1 rounded-bl-lg rounded-tr-lg font-mono">Python</div>
+<pre><code class="language-python rounded-lg shadow-md text-sm" style="font-family: 'Fira Code', monospace;">def solve_bruteforce(N, A, B):
+    total = 0
+    current_bricks = A
+    for i in range(N):
+        total += current_bricks
+        current_bricks += B
+    return total
+</code></pre>
+                    </div>
+                </div>
+
+                <div class="border-t border-dashed border-slate-300"></div>
+
+                <div>
+                    <h3 class="text-xl font-bold text-emerald-600 mb-3">Cách 2: Tối ưu Toán học - Phù hợp mọi Subtask ($N \le 10^9$)</h3>
+                    <p class="text-slate-700 mb-3"><strong>1. Ý tưởng logic:</strong> Thay vì đếm từng hàng, ta áp dụng trực tiếp công thức tổng cấp số cộng đã phân tích ở Phần 1. Phép tính chỉ mất độ phức tạp $O(1)$.</p>
+                    
+                    <blockquote class="bg-slate-50 border-l-4 border-slate-300 p-4 rounded-r-lg font-mono text-sm text-slate-600 mb-4 whitespace-pre">
+2. Mã giả (Pseudocode):
+total = N * (2*A + (N - 1)*B) // 2
+Trả về total
+                    </blockquote>
+                    
+                    <div class="relative">
+                        <div class="absolute top-0 right-0 bg-slate-800 text-slate-300 text-xs px-3 py-1 rounded-bl-lg rounded-tr-lg font-mono">Python</div>
+<pre><code class="language-python rounded-lg shadow-md text-sm" style="font-family: 'Fira Code', monospace;">def solve_optimal(N, A, B):
+    # Sử dụng phép chia lấy phần nguyên // để đảm bảo kết quả là số nguyên
+    total = N * (2 * A + (N - 1) * B) // 2
+    return total
+</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-800 border-b-2 border-orange-100 pb-3 mb-6 flex items-center gap-2">
+                <span>📊</span> Phần 3: Bảng So Sánh Thuật Toán
+            </h2>
+            <div class="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
+                <table class="min-w-full text-left text-sm">
+                    <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                            <th class="px-6 py-4 font-bold border-b border-slate-200">Phương pháp</th>
+                            <th class="px-6 py-4 font-bold border-b border-slate-200">Độ phức tạp Thời Gian</th>
+                            <th class="px-6 py-4 font-bold border-b border-slate-200">Độ phức tạp Không Gian</th>
+                            <th class="px-6 py-4 font-bold border-b border-slate-200">Kết quả dự kiến ($N = 10^9$)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 bg-white">
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="px-6 py-4 font-medium">1. Vòng lặp Vét cạn</td>
+                            <td class="px-6 py-4 font-mono text-rose-600">$O(N)$</td>
+                            <td class="px-6 py-4 font-mono">$O(1)$</td>
+                            <td class="px-6 py-4 text-rose-600 font-semibold">TLE (Time Limit Exceeded)</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-emerald-700">2. Công thức Toán học</td>
+                            <td class="px-6 py-4 font-mono text-emerald-600 font-bold">$O(1)$</td>
+                            <td class="px-6 py-4 font-mono font-bold">$O(1)$</td>
+                            <td class="px-6 py-4 text-emerald-600 font-bold">AC (Accepted) - Điểm tối đa</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-800 border-b-2 border-orange-100 pb-3 mb-6 flex items-center gap-2">
+                <span>💻</span> Phần 4: Trình Mô Phỏng Tương Tác (Visualizer)
+            </h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-5 flex flex-col space-y-5 bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <div class="grid grid-cols-3 gap-3">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">N (Số hàng):</label>
+                            <input type="number" id="sim-N" value="5" min="1" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">A (Hàng 1):</label>
+                            <input type="number" id="sim-A" value="1" min="1" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">B (Tăng thêm):</label>
+                            <input type="number" id="sim-B" value="1" min="0" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Chọn Thuật Toán:</label>
+                        <select id="sim-algo" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none bg-white">
+                            <option value="brute">Cách 1: Vòng Lặp O(N)</option>
+                            <option value="optimal">Cách 2: Công Thức O(1)</option>
+                        </select>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-200 flex gap-2 flex-wrap">
+                        <button id="btn-load" onclick="setupSim()" class="flex-1 bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm active:scale-95">Nạp dữ liệu</button>
+                        <button id="btn-step" onclick="stepSim()" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm active:scale-95" disabled>Bước tiếp</button>
+                        <button id="btn-auto" onclick="toggleAuto()" class="w-full bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm active:scale-95" disabled>Chạy tự động</button>
+                    </div>
+
+                    <div id="sim-status" class="mt-4 p-4 bg-orange-50 border border-orange-100 rounded-lg hidden">
+                        <p class="text-sm font-semibold text-orange-800">Tổng số gạch: <span id="sim-ans" class="text-2xl text-orange-600 font-bold ml-2">0</span></p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 bg-gray-900 rounded-xl shadow-inner border border-gray-800 overflow-hidden flex flex-col">
+                    <div class="bg-gray-800 px-4 py-2 flex items-center gap-2 border-b border-gray-700">
+                        <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                        <span class="text-xs text-gray-400 ml-2 font-mono">CT.Terminal ~ Builder_Bot</span>
+                    </div>
+                    <div id="terminal-output" class="p-4 h-80 overflow-y-auto font-mono text-sm leading-relaxed terminal-scroll text-gray-300">
+                        <div class="text-orange-400">Nhập thông số N, A, B và nhấn 'Nạp dữ liệu' để bắt đầu...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Init Highlight.js
+        document.addEventListener('DOMContentLoaded', (event) => {
+            hljs.highlightAll();
+        });
+
+        // Tương tác Terminal và Logic Simulator
+        const terminal = document.getElementById('terminal-output');
+        const btnLoad = document.getElementById('btn-load');
+        const btnStep = document.getElementById('btn-step');
+        const btnAuto = document.getElementById('btn-auto');
+        const simStatus = document.getElementById('sim-status');
+        const simAnsDisplay = document.getElementById('sim-ans');
+
+        let N = 0, A = 0, B = 0;
+        let algo = "brute";
+        let stepCount = 1;
+        let currentBricks = 0;
+        let totalBricks = 0;
+        let isAuto = false;
+        let autoInterval = null;
+        let simDone = false;
+
+        function printLog(msg, type = "info") {
+            const div = document.createElement("div");
+            div.className = "mb-1";
+            
+            let colorCls = "text-gray-300"; 
+            if(type === "system") colorCls = "text-orange-400";
+            if(type === "warn") colorCls = "text-amber-400";
+            if(type === "error") colorCls = "text-rose-400";
+            if(type === "success") colorCls = "text-emerald-400";
+            if(type === "highlight") colorCls = "text-cyan-300";
+
+            div.innerHTML = `<span class="text-gray-500 mr-2">[${new Date().toLocaleTimeString('en-US', { hour12: false, hour: "numeric", minute: "numeric", second: "numeric" })}]</span> <span class="${colorCls}">${msg}</span>`;
+            terminal.appendChild(div);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function setupSim() {
+            N = parseInt(document.getElementById('sim-N').value);
+            A = parseInt(document.getElementById('sim-A').value);
+            B = parseInt(document.getElementById('sim-B').value);
+            algo = document.getElementById('sim-algo').value;
+            
+            if(isNaN(N) || isNaN(A) || isNaN(B) || N < 1 || A < 1 || B < 0) {
+                printLog("Lỗi: Giá trị không hợp lệ! Vui lòng nhập số dương.", "error");
+                return;
+            }
+
+            if(algo === "brute" && N > 1000) {
+                printLog(`Cảnh báo: Chạy vòng lặp với N=${N} sẽ mất nhiều thời gian mô phỏng, giới hạn N tối đa = 1000 cho mô phỏng trực quan.`, "warn");
+                N = 1000; 
+                document.getElementById('sim-N').value = 1000;
+            }
+
+            stepCount = 1;
+            totalBricks = 0;
+            currentBricks = A;
+            simDone = false;
+            
+            terminal.innerHTML = "";
+            printLog(`Khởi tạo tháp gạch: N = ${N}, A = ${A}, B = ${B}`, "system");
+            printLog(`Thuật toán: ${algo === 'brute' ? 'Vòng Lặp O(N)' : 'Công Thức Toán Học O(1)'}`, "system");
+            printLog("Sẵn sàng xây dựng.", "success");
+            printLog("--------------------------------------------------", "info");
+
+            btnStep.disabled = false;
+            btnAuto.disabled = false;
+            btnAuto.innerText = "Chạy tự động";
+            isAuto = false;
+            clearInterval(autoInterval);
+            
+            simStatus.classList.remove('hidden');
+            simAnsDisplay.innerText = "0";
+        }
+
+        function stepSim() {
+            if(simDone) return;
+
+            if(algo === "brute") {
+                if(stepCount > N) {
+                    finishSim();
+                    return;
+                }
+
+                totalBricks += currentBricks;
+                printLog(`<strong>HÀNG ${stepCount}:</strong> Có ${currentBricks} viên gạch.`, "highlight");
+                printLog(`  ➜ Cập nhật tổng: ${totalBricks - currentBricks} + ${currentBricks} = ${totalBricks}`, "info");
+                
+                simAnsDisplay.innerText = totalBricks;
+                currentBricks += B;
+                stepCount++;
+
+                if(stepCount > N) {
+                    finishSim();
+                }
+            } else {
+                // Optimal Mathematical Approach
+                printLog(`<strong>ÁP DỤNG CÔNG THỨC:</strong> S = N * (2*A + (N-1)*B) / 2`, "highlight");
+                printLog(`  ➜ Thay số: S = ${N} * (2*${A} + (${N}-1)*${B}) / 2`, "info");
+                
+                const insideParen = 2 * A + (N - 1) * B;
+                printLog(`  ➜ Tính trong ngoặc: (2*${A} + ${N - 1}*${B}) = ${insideParen}`, "info");
+                
+                const multiply = N * insideParen;
+                printLog(`  ➜ Nhân với N: ${N} * ${insideParen} = ${multiply}`, "info");
+                
+                totalBricks = multiply / 2;
+                printLog(`  ➜ Chia 2: ${multiply} / 2 = <strong>${totalBricks}</strong>`, "success");
+                
+                simAnsDisplay.innerText = totalBricks;
+                finishSim();
+            }
+        }
+
+        function finishSim() {
+            simDone = true;
+            btnStep.disabled = true;
+            btnAuto.disabled = true;
+            btnAuto.innerText = "Chạy tự động";
+            clearInterval(autoInterval);
+            isAuto = false;
+            printLog("==================================================", "system");
+            printLog(`<strong>HOÀN THÀNH. Tổng số gạch cần dùng là: ${totalBricks}</strong>`, "success");
+        }
+
+        function toggleAuto() {
+            if(simDone) return;
+            if(!isAuto) {
+                isAuto = true;
+                btnAuto.innerText = "Dừng tự động";
+                btnAuto.classList.replace('bg-slate-700', 'bg-rose-600');
+                btnAuto.classList.replace('hover:bg-slate-800', 'hover:bg-rose-700');
+                autoInterval = setInterval(stepSim, algo === 'brute' ? 300 : 1000);
+            } else {
+                isAuto = false;
+                btnAuto.innerText = "Chạy tự động";
+                btnAuto.classList.replace('bg-rose-600', 'bg-slate-700');
+                btnAuto.classList.replace('hover:bg-rose-700', 'hover:bg-slate-800');
+                clearInterval(autoInterval);
+            }
+        }
+    </script>
+</body>
+</html>

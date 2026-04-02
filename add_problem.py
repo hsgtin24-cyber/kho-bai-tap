@@ -45,8 +45,8 @@ def main():
         source = "Internet"
     
     #tags_input = input("Tags (cách nhau bởi dấu phẩy, vd: bitmask, dfs): ").strip()
-    #tags = [t.strip().lower() for t in tags_input.split(',')] if tags_input else []
-    tags = topics.lower()
+    tags_input = topics_input
+    tags = [t.strip().lower() for t in tags_input.split(',')] if tags_input else []
 
     #judge_url = input("Link chấm Online (Enter để bỏ qua): ").strip()
     #has_generator = input("Có dùng code sinh test không? (y/n): ").strip().lower() == 'y'

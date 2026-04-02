@@ -73,5 +73,21 @@
     "solution": "problems/3/solution.html",
     "judge_url": "https://ntduong.pythonanywhere.com/",
     "generator": "problems/3/generator.py"
+  },
+  {
+    "id": "4",
+    "title": "Tháp Gạch",
+    "topics": [
+      "Math"
+    ],
+    "difficulty": 1,
+    "complexity": "O(1)",
+    "source": "Internet",
+    "tags": [
+      "math"
+    ],
+    "solution": "problems/4/solution.html",
+    "judge_url": "https://ntduong.pythonanywhere.com/",
+    "generator": "problems/4/generator.py"
   }
 ]
