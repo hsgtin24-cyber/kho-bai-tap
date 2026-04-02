@@ -78,8 +78,9 @@ def main():
         "solution": f"{PROBLEMS_DIR}/{prob_id}/solution.html"
     }
     
-    if judge_url:
-        new_problem["judge_url"] = judge_url
+    # if judge_url:
+    #     new_problem["judge_url"] = judge_url
+    new_problem["judge_url"] = "https://ntduong.pythonanywhere.com/"
     if has_generator:
         new_problem["generator"] = generator_path
 

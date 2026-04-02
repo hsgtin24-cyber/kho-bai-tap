@@ -35,7 +35,7 @@
       "Two pointers"
     ],
     "solution": "problems/1/giai.html",
-    "judge_url": "https://pycode.kodemy.site/problems/lam-sach-duu-lieu-205113",
+    "judge_url": "https://ntduong.pythonanywhere.com/",
     "generator": "problems/1/gentest.py"
   },
   {
@@ -53,6 +53,7 @@
       "matrix"
     ],
     "solution": "problems/2/solution.html",
+    "judge_url": "https://ntduong.pythonanywhere.com/",
     "generator": "problems/2/generator.py"
   }
 ]
