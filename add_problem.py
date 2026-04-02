@@ -35,19 +35,22 @@ def main():
     # 1. Thu thập thông tin
     prob_id = input("ID bài toán (vd: knapsack-dp): ").strip().lower().replace(" ", "-")
     title = input("Tên bài toán: ").strip()
-    topics_input = input("Chủ đề (cách nhau bởi dấu phẩy, vd: DP, Math): ").strip()
+    topics_input = input("Chủ đề (cách nhau bởi dấu phẩy, vd: String, Set, Tuple, Dict, Math, Matrix, Two Pointers, Bitwise, Prefix Sum, Segment Tree, DP, Greedy, Graph): ").strip()
     topics = [t.strip() for t in topics_input.split(',')] if topics_input else []
     
     difficulty = input("Độ khó (1-5): ").strip()
     complexity = input("Độ phức tạp (vd: O(N log N)): ").strip()
     source = input("Nguồn bài (vd: VOI 2023): ").strip()
+    if source=="":
+        source = "Internet"
     
-    tags_input = input("Tags (cách nhau bởi dấu phẩy, vd: bitmask, dfs): ").strip()
-    tags = [t.strip().lower() for t in tags_input.split(',')] if tags_input else []
-    
-    judge_url = input("Link chấm Online (Enter để bỏ qua): ").strip()
-    has_generator = input("Có dùng code sinh test không? (y/n): ").strip().lower() == 'y'
+    #tags_input = input("Tags (cách nhau bởi dấu phẩy, vd: bitmask, dfs): ").strip()
+    #tags = [t.strip().lower() for t in tags_input.split(',')] if tags_input else []
+    tags = topics.lower()
 
+    #judge_url = input("Link chấm Online (Enter để bỏ qua): ").strip()
+    #has_generator = input("Có dùng code sinh test không? (y/n): ").strip().lower() == 'y'
+    has_generator = True
     # 2. Tạo thư mục và file boilerplate
     target_dir = Path(PROBLEMS_DIR) / prob_id
     target_dir.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Giảng: Mật Khẩu An Toàn - CyberTech</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .terminal-scroll::-webkit-scrollbar { width: 8px; }
+        .terminal-scroll::-webkit-scrollbar-track { background: #1f2937; border-radius: 8px; }
+        .terminal-scroll::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 8px; }
+        .terminal-scroll::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-12">
+        
+        <header class="bg-gradient-to-r from-indigo-600 to-blue-500 rounded-2xl p-8 text-white shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold mb-2">Mật Khẩu An Toàn (PASSWORD)</h1>
+                <p class="text-indigo-100 text-lg">Kỳ thi: Học sinh giỏi Tin học | Thời gian chạy: 1.0s | Bộ nhớ: 256MB</p>
+            </div>
+            <div class="mt-4 md:mt-0 px-6 py-2 bg-white/20 backdrop-blur-md rounded-full border border-white/30 font-semibold shadow-inner">
+                Điểm tối đa: 100
+            </div>
+        </header>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-800 border-b-2 border-indigo-100 pb-3 mb-6 flex items-center gap-2">
+                <span>📍</span> Phần 0: Đề Bài Chi Tiết
+            </h2>
+            <div class="prose prose-slate max-w-none space-y-4">
+                <p><strong>Câu chuyện:</strong> Tại công ty công nghệ CyberTech, kỹ sư bảo mật Alice đang tiến hành rà soát lại toàn bộ hệ thống log (nhật ký) ghi nhận các chuỗi ký tự được tạo ra trong quá trình thiết lập mật khẩu của người dùng. Để đảm bảo an toàn, hệ thống quy định một mật khẩu được xem là an toàn nếu nó thỏa mãn đồng thời các điều kiện sau:</p>
+                <ul class="list-disc pl-6 space-y-1 text-slate-700">
+                    <li>Có độ dài ít nhất là <strong>6 ký tự</strong>.</li>
+                    <li>Chứa ít nhất một <strong>chữ cái in hoa</strong> (từ 'A' đến 'Z').</li>
+                    <li>Chứa ít nhất một <strong>chữ cái in thường</strong> (từ 'a' đến 'z').</li>
+                    <li>Chứa ít nhất một <strong>chữ số</strong> (từ '0' đến '9').</li>
+                </ul>
+                <p>Ví dụ: <code>a1B2c3</code>, <code>tinHoc6</code> là các mật khẩu an toàn. Trong khi đó, <code>a1B2C</code> (độ dài 5, không đủ dài), <code>a1b2c3</code> (thiếu chữ hoa), <code>tinHoc</code> (thiếu chữ số) đều không phải là mật khẩu an toàn.</p>
+                <p><strong>Yêu cầu:</strong> Cho một xâu ký tự $S$ ghi lại lịch sử thao tác có độ dài không vượt quá $10^6$. Bạn hãy giúp Alice đếm xem có bao nhiêu cặp chỉ số $(i, j)$ thỏa mãn điều kiện: $1 \le i \le j \le \text{length}(S)$ và xâu con gồm các ký tự liên tiếp từ $i$ đến $j$ của $S$ tạo thành một mật khẩu an toàn.</p>
+                
+                <h3 class="font-semibold mt-6">Dữ liệu vào (Input) - Đọc từ <code>PASSWORD.INP</code></h3>
+                <p>Gồm một dòng duy nhất chứa xâu ký tự $S$ (chỉ gồm các chữ cái tiếng Anh in hoa, in thường và các chữ số). Độ dài của $S$ không vượt quá $10^6$.</p>
+                
+                <h3 class="font-semibold mt-4">Dữ liệu ra (Output) - Ghi ra <code>PASSWORD.OUT</code></h3>
+                <p>In ra một số nguyên duy nhất là số lượng cặp chỉ số $(i, j)$ thỏa mãn yêu cầu bài toán.</p>
+
+                <h3 class="font-semibold mt-6 text-lg">Bảng Ví Dụ (Sample Test)</h3>
+                <div class="overflow-hidden rounded-lg border border-slate-200 shadow-sm mt-2">
+                    <table class="min-w-full text-left text-sm whitespace-nowrap">
+                        <thead class="bg-slate-100 border-b border-slate-200">
+                            <tr>
+                                <th class="px-6 py-3 font-semibold text-slate-800">PASSWORD.INP</th>
+                                <th class="px-6 py-3 font-semibold text-slate-800">PASSWORD.OUT</th>
+                                <th class="px-6 py-3 font-semibold text-slate-800 w-1/2">Giải thích</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr>
+                                <td class="px-6 py-4 font-mono text-indigo-600 bg-slate-50">Adsd2bfB4D</td>
+                                <td class="px-6 py-4 font-mono font-bold text-emerald-600 bg-slate-50">14</td>
+                                <td class="px-6 py-4 text-slate-600 whitespace-normal">
+                                    Có 14 xâu con thỏa mãn: Adsd2b, Adsd2bf, Adsd2bfB, dsd2bfB, sd2bfB...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-800 border-b-2 border-indigo-100 pb-3 mb-6 flex items-center gap-2">
+                <span>🧠</span> Phần 1: Phân Tích Toán Học & Logic
+            </h2>
+            <div class="space-y-4 text-slate-700">
+                <p><strong>Dạng bài:</strong> <code>Kỹ thuật Hai con trỏ (Two Pointers)</code> / <code>Trượt cửa sổ (Sliding Window)</code> kết hợp mảng lưu vết.</p>
+                
+                <h3 class="text-lg font-semibold text-slate-800">1. Điều kiện của bài toán:</h3>
+                <p>Một xâu con $S[i..j]$ (từ chỉ số $i$ đến $j$) được gọi là "mật khẩu an toàn" nếu:</p>
+                <ul class="list-disc pl-8 space-y-1">
+                    <li>Chiều dài: $j - i + 1 \ge 6 \iff i \le j - 5$</li>
+                    <li>Có ít nhất 1 chữ hoa, 1 chữ thường, 1 chữ số.</li>
+                </ul>
+
+                <h3 class="text-lg font-semibold text-slate-800 mt-6">2. Phân tích tối ưu $O(N)$:</h3>
+                <p>Thay vì đếm từng xâu con riêng lẻ, ta cố định điểm kết thúc $j$ (duyệt $j$ từ đầu đến cuối xâu). Với mỗi $j$, ta tìm <strong>chỉ số $i$ lớn nhất</strong> (gọi là $L$) sao cho xâu $S[L..j]$ có đủ 3 loại ký tự.</p>
+                <p>Bởi vì $L$ là chỉ số lớn nhất thỏa mãn có đủ 3 loại ký tự, nên bất kỳ vị trí bắt đầu $k$ nào nằm trước $L$ ($k \le L$) thì đoạn $S[k..j]$ cũng <strong>chắc chắn</strong> có đủ 3 loại ký tự. Đồng thời, để thỏa mãn điều kiện độ dài $\ge 6$, ta phải có $k \le j - 5$.</p>
+                <p>Vậy, số lượng vị trí bắt đầu $k$ hợp lệ cho một điểm kết thúc $j$ cố định là các số nguyên $k$ sao cho: <strong>$0 \le k \le \min(L, j - 5)$</strong>.</p>
+                <p>Số lượng xâu con thỏa mãn kết thúc tại $j$ sẽ là: $\min(L, j - 5) + 1$ (nếu giá trị này $\ge 0$).</p>
+
+                <div class="mt-6 border-l-4 border-amber-400 bg-amber-50 p-5 rounded-r-lg">
+                    <div class="flex items-center gap-2 mb-2">
+                        <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        <h4 class="font-bold text-amber-800">CẢNH BÁO KIỂU DỮ LIỆU (DATA TYPE WARNING)</h4>
+                    </div>
+                    <p class="text-amber-700 text-sm">
+                        Với $|S| = 10^6$, trong trường hợp xấu nhất toàn bộ xâu đều là mật khẩu an toàn. Số lượng xâu con có thể lên tới $\frac{10^6 \times 10^6}{2} \approx 5 \times 10^{11}$. Con số này vượt qua giới hạn của kiểu số nguyên 32-bit thông thường (khoảng $2 \times 10^9$). Do đó, biến lưu kết quả <strong>BẮT BUỘC</strong> phải sử dụng kiểu <code>long long</code> trong C++ hoặc tương đương để tránh tràn số (Integer Overflow).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-800 border-b-2 border-indigo-100 pb-3 mb-6 flex items-center gap-2">
+                <span>⚙️</span> Phần 2: Phân Tích Cách Giải Theo Subtask
+            </h2>
+            
+            <div class="space-y-10">
+                <div>
+                    <h3 class="text-xl font-bold text-rose-600 mb-3">Cách 1: Duyệt Vét Cạn (Brute Force) - Phù hợp Subtask nhỏ</h3>
+                    <p class="text-slate-700 mb-3"><strong>1. Ý tưởng logic:</strong> Duyệt mọi cặp $(i, j)$ với điều kiện $j - i \ge 5$ (tức độ dài $\ge 6$). Với mỗi cặp, ta cắt ra xâu con $S[i..j]$ và duyệt qua từng ký tự trong xâu con để kiểm tra xem có đủ 3 loại ký tự hay không. Nếu có, tăng biến đếm lên 1.</p>
+                    
+                    <blockquote class="bg-slate-50 border-l-4 border-slate-300 p-4 rounded-r-lg font-mono text-sm text-slate-600 mb-4 whitespace-pre">
+2. Mã giả (Pseudocode):
+ans = 0
+For i từ 0 đến N-1:
+    For j từ i+5 đến N-1:
+        Lấy chuỗi con sub = S[i...j]
+        Nếu sub có chữ hoa VÀ sub có chữ thường VÀ sub có số:
+            ans = ans + 1
+Trả về ans
+                    </blockquote>
+                    
+                    <div class="relative">
+                        <div class="absolute top-0 right-0 bg-slate-800 text-slate-300 text-xs px-3 py-1 rounded-bl-lg rounded-tr-lg font-mono">Python</div>
+<pre><code class="language-python rounded-lg shadow-md text-sm" style="font-family: 'Fira Code', monospace;">def solve_bruteforce(S):
+    n = len(S)
+    ans = 0
+    # Duyệt mọi vị trí bắt đầu i
+    for i in range(n):
+        # Duyệt vị trí kết thúc j sao cho độ dài ít nhất là 6 (j >= i + 5)
+        for j in range(i + 5, n):
+            sub = S[i:j+1]
+            
+            # Kiểm tra các điều kiện
+            has_upper = any(c.isupper() for c in sub)
+            has_lower = any(c.islower() for c in sub)
+            has_digit = any(c.isdigit() for c in sub)
+            
+            if has_upper and has_lower and has_digit:
+                ans += 1
+                
+    return ans
+</code></pre>
+                    </div>
+                </div>
+
+                <div class="border-t border-dashed border-slate-300"></div>
+
+                <div>
+                    <h3 class="text-xl font-bold text-emerald-600 mb-3">Cách 2: Tối ưu Hai Con Trỏ (Optimal) - Qua 100% Test</h3>
+                    <p class="text-slate-700 mb-3"><strong>1. Ý tưởng logic:</strong> Dùng 3 biến <code>last_upper</code>, <code>last_lower</code>, <code>last_digit</code> để lưu lại vị trí xuất hiện gần nhất của 3 loại ký tự khi duyệt xâu từ trái qua phải. Với mỗi vị trí $j$, vùng chứa đủ 3 ký tự sẽ bắt đầu muộn nhất tại $\min(last\_upper, last\_lower, last\_digit)$. Mọi điểm xuất phát từ vị trí này lùi về đầu xâu đều đảm bảo đủ 3 loại ký tự. Sau đó ép thêm điều kiện chiều dài đoạn là $\le j - 5$.</p>
+                    
+                    <blockquote class="bg-slate-50 border-l-4 border-slate-300 p-4 rounded-r-lg font-mono text-sm text-slate-600 mb-4 whitespace-pre">
+2. Mã giả (Pseudocode):
+ans = 0; last_U = -1; last_L = -1; last_D = -1
+For j từ 0 đến N-1:
+    Nếu S[j] là chữ hoa -> last_U = j
+    Nếu S[j] là chữ thường -> last_L = j
+    Nếu S[j] là chữ số -> last_D = j
+    
+    L = min(last_U, last_L, last_D)
+    limit = min(L, j - 5)
+    
+    Nếu limit >= 0:
+        ans = ans + (limit + 1)
+Trả về ans
+                    </blockquote>
+                    
+                    <div class="relative">
+                        <div class="absolute top-0 right-0 bg-slate-800 text-slate-300 text-xs px-3 py-1 rounded-bl-lg rounded-tr-lg font-mono">Python</div>
+<pre><code class="language-python rounded-lg shadow-md text-sm" style="font-family: 'Fira Code', monospace;">def solve_optimal(S):
+    ans = 0
+    # Khởi tạo các biến lưu vết bằng -1 (chưa xuất hiện)
+    last_upper = -1
+    last_lower = -1
+    last_digit = -1
+
+    for j, char in enumerate(S):
+        # Cập nhật vị trí gần nhất
+        if char.isupper():
+            last_upper = j
+        elif char.islower():
+            last_lower = j
+        elif char.isdigit():
+            last_digit = j
+
+        # L là vị trí i lớn nhất đảm bảo S[i..j] chứa đủ 3 loại ký tự
+        L = min(last_upper, last_lower, last_digit)
+        
+        # limit là giới hạn tối đa cho i để độ dài >= 6
+        limit = min(L, j - 5)
+
+        # Nếu tồn tại vùng i hợp lệ, cộng số lượng xâu vào kết quả
+        if limit >= 0:
+            ans += (limit + 1)
+
+    return ans
+</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-800 border-b-2 border-indigo-100 pb-3 mb-6 flex items-center gap-2">
+                <span>📊</span> Phần 3: Bảng So Sánh Thuật Toán
+            </h2>
+            <div class="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
+                <table class="min-w-full text-left text-sm">
+                    <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                            <th class="px-6 py-4 font-bold border-b border-slate-200">Phương pháp</th>
+                            <th class="px-6 py-4 font-bold border-b border-slate-200">Độ phức tạp Thời Gian</th>
+                            <th class="px-6 py-4 font-bold border-b border-slate-200">Độ phức tạp Không Gian</th>
+                            <th class="px-6 py-4 font-bold border-b border-slate-200">Kết quả dự kiến ($N = 10^6$)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 bg-white">
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="px-6 py-4 font-medium">1. Duyệt vét cạn (Brute Force)</td>
+                            <td class="px-6 py-4 font-mono text-rose-600">$O(N^3)$ hoặc $O(N^2)$</td>
+                            <td class="px-6 py-4 font-mono">$O(1)$ hoặc $O(N)$</td>
+                            <td class="px-6 py-4 text-rose-600 font-semibold">TLE (Quá thời gian)</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-emerald-700">2. Mảng lưu vết & Hai con trỏ</td>
+                            <td class="px-6 py-4 font-mono text-emerald-600 font-bold">$O(N)$</td>
+                            <td class="px-6 py-4 font-mono font-bold">$O(1)$</td>
+                            <td class="px-6 py-4 text-emerald-600 font-bold">AC (Chấp nhận) - Điểm tối đa</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-800 border-b-2 border-indigo-100 pb-3 mb-6 flex items-center gap-2">
+                <span>💻</span> Phần 4: Trình Mô Phỏng Tương Tác (Visualizer)
+            </h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-5 flex flex-col space-y-5 bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Chuỗi S (Input):</label>
+                        <input type="text" id="sim-input" value="Adsd2bfB4D" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none font-mono transition-shadow">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Chọn Thuật Toán:</label>
+                        <select id="sim-algo" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow bg-white">
+                            <option value="optimal">Cách Tối Ưu O(N)</option>
+                            <option value="brute">Cách Vét Cạn (Chỉ mô phỏng logic)</option>
+                        </select>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-200 flex gap-2 flex-wrap">
+                        <button id="btn-load" onclick="setupSim()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm active:scale-95">Nạp dữ liệu</button>
+                        <button id="btn-step" onclick="stepSim()" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm active:scale-95" disabled>Bước tiếp</button>
+                        <button id="btn-auto" onclick="toggleAuto()" class="w-full bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm active:scale-95" disabled>Chạy tự động</button>
+                    </div>
+
+                    <div id="sim-status" class="mt-4 p-4 bg-indigo-50 border border-indigo-100 rounded-lg hidden">
+                        <p class="text-sm font-semibold text-indigo-800">Kết quả đếm: <span id="sim-ans" class="text-xl text-indigo-600 font-bold ml-2">0</span></p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 bg-gray-900 rounded-xl shadow-inner border border-gray-800 overflow-hidden flex flex-col">
+                    <div class="bg-gray-800 px-4 py-2 flex items-center gap-2 border-b border-gray-700">
+                        <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                        <span class="text-xs text-gray-400 ml-2 font-mono">CyberTech.Terminal ~ Alice_Session</span>
+                    </div>
+                    <div id="terminal-output" class="p-4 h-96 overflow-y-auto font-mono text-sm leading-relaxed terminal-scroll text-gray-300">
+                        <div class="text-indigo-400">Nhấn 'Nạp dữ liệu' để bắt đầu phiên kiểm tra...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Syntax Highlighting Init
+        document.addEventListener('DOMContentLoaded', (event) => {
+            hljs.highlightAll();
+        });
+
+        // Tương tác Terminal và Logic Simulator
+        const terminal = document.getElementById('terminal-output');
+        const btnLoad = document.getElementById('btn-load');
+        const btnStep = document.getElementById('btn-step');
+        const btnAuto = document.getElementById('btn-auto');
+        const simStatus = document.getElementById('sim-status');
+        const simAnsDisplay = document.getElementById('sim-ans');
+
+        // State Machine
+        let S = "";
+        let algo = "optimal";
+        let j = 0;
+        let lastU = -1, lastL = -1, lastD = -1;
+        let totalAns = 0;
+        let isAuto = false;
+        let autoInterval = null;
+        let simDone = false;
+
+        // Terminal Log Function
+        function printLog(msg, type = "info") {
+            const div = document.createElement("div");
+            div.className = "mb-1";
+            
+            let colorCls = "text-gray-300"; // default info
+            if(type === "system") colorCls = "text-indigo-400";
+            if(type === "warn") colorCls = "text-amber-400";
+            if(type === "error") colorCls = "text-rose-400";
+            if(type === "success") colorCls = "text-emerald-400";
+            if(type === "highlight") colorCls = "text-cyan-300";
+
+            // Format HTML safely
+            div.innerHTML = `<span class="text-gray-500 mr-2">[${new Date().toLocaleTimeString('en-US', { hour12: false, hour: "numeric", minute: "numeric", second: "numeric" })}]</span> <span class="${colorCls}">${msg}</span>`;
+            terminal.appendChild(div);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        // Khởi tạo
+        function setupSim() {
+            S = document.getElementById('sim-input').value;
+            algo = document.getElementById('sim-algo').value;
+            
+            if(!S) {
+                printLog("Lỗi: Chuỗi input trống!", "error");
+                return;
+            }
+
+            j = 0;
+            lastU = -1; lastL = -1; lastD = -1;
+            totalAns = 0;
+            simDone = false;
+            
+            terminal.innerHTML = "";
+            printLog(`Khởi tạo phân tích chuỗi S = "${S}" (Độ dài: ${S.length})`, "system");
+            printLog(`Thuật toán đã chọn: ${algo === 'optimal' ? 'Tối ưu O(N)' : 'Vét cạn O(N³)'}`, "system");
+            printLog("Sẵn sàng.", "success");
+            printLog("--------------------------------------------------", "info");
+
+            btnStep.disabled = false;
+            btnAuto.disabled = false;
+            btnAuto.innerText = "Chạy tự động";
+            isAuto = false;
+            clearInterval(autoInterval);
+            
+            simStatus.classList.remove('hidden');
+            simAnsDisplay.innerText = "0";
+        }
+
+        function checkCharType(char) {
+            if(/[A-Z]/.test(char)) return "UPPER";
+            if(/[a-z]/.test(char)) return "LOWER";
+            if(/[0-9]/.test(char)) return "DIGIT";
+            return "OTHER";
+        }
+
+        // Chạy từng bước
+        function stepSim() {
+            if(simDone) return;
+
+            if(algo === "optimal") {
+                if(j >= S.length) {
+                    finishSim();
+                    return;
+                }
+
+                const char = S[j];
+                const cType = checkCharType(char);
+                printLog(`<strong>BƯỚC ${j+1}:</strong> Đọc S[${j}] = '${char}'`, "highlight");
+                
+                let updateMsg = "";
+                if(cType === "UPPER") { lastU = j; updateMsg = `last_upper = ${j}`; }
+                else if(cType === "LOWER") { lastL = j; updateMsg = `last_lower = ${j}`; }
+                else if(cType === "DIGIT") { lastD = j; updateMsg = `last_digit = ${j}`; }
+                else { updateMsg = "Ký tự bỏ qua (không thuộc [a-z, A-Z, 0-9])"; }
+
+                printLog(`  ➜ Cập nhật: ${updateMsg}`, "info");
+
+                const L = Math.min(lastU, lastL, lastD);
+                printLog(`  ➜ L = min(${lastU}, ${lastL}, ${lastD}) = ${L}`, "info");
+
+                const limit = Math.min(L, j - 5);
+                printLog(`  ➜ limit (để len ≥ 6) = min(L, j - 5) = min(${L}, ${j - 5}) = ${limit}`, "info");
+
+                if(limit >= 0) {
+                    const newSubstrings = limit + 1;
+                    totalAns += newSubstrings;
+                    printLog(`  ➜ Tìm thấy <strong class="text-emerald-400">${newSubstrings}</strong> mật khẩu kết thúc tại đây! (Start index từ 0 đến ${limit})`, "success");
+                    simAnsDisplay.innerText = totalAns;
+                } else {
+                    printLog(`  ➜ Không đủ điều kiện tạo mật khẩu.`, "warn");
+                }
+                
+                printLog("---", "info");
+                j++;
+
+                if(j === S.length) {
+                    finishSim();
+                }
+            } else {
+                // Brute force simulation (simplified logic trace)
+                if(j >= S.length) {
+                    finishSim();
+                    return;
+                }
+                printLog(`<strong>BƯỚC (kết thúc tại j=${j}):</strong> Đọc S[${j}] = '${S[j]}'`, "highlight");
+                let foundThisStep = 0;
+                for(let i = 0; i <= j - 5; i++) {
+                    const sub = S.substring(i, j + 1);
+                    const hasU = /[A-Z]/.test(sub);
+                    const hasL = /[a-z]/.test(sub);
+                    const hasD = /[0-9]/.test(sub);
+                    if(hasU && hasL && hasD) {
+                        foundThisStep++;
+                    }
+                }
+                if(foundThisStep > 0) {
+                    totalAns += foundThisStep;
+                    printLog(`  ➜ Quét lùi vét cạn (O(N²)): Tìm thấy <strong class="text-emerald-400">${foundThisStep}</strong> mật khẩu.`, "success");
+                    simAnsDisplay.innerText = totalAns;
+                } else {
+                    printLog(`  ➜ Quét lùi vét cạn: Không tìm thấy mật khẩu nào hợp lệ.`, "warn");
+                }
+                printLog("---", "info");
+                j++;
+                if(j === S.length) finishSim();
+            }
+        }
+
+        function finishSim() {
+            simDone = true;
+            btnStep.disabled = true;
+            btnAuto.disabled = true;
+            btnAuto.innerText = "Chạy tự động";
+            clearInterval(autoInterval);
+            isAuto = false;
+            printLog("==================================================", "system");
+            printLog(`<strong>HOÀN THÀNH. Tổng số mật khẩu an toàn: ${totalAns}</strong>`, "success");
+        }
+
+        function toggleAuto() {
+            if(simDone) return;
+            if(!isAuto) {
+                isAuto = true;
+                btnAuto.innerText = "Dừng tự động";
+                btnAuto.classList.replace('bg-slate-700', 'bg-rose-600');
+                btnAuto.classList.replace('hover:bg-slate-800', 'hover:bg-rose-700');
+                autoInterval = setInterval(stepSim, algo === 'optimal' ? 500 : 800);
+            } else {
+                isAuto = false;
+                btnAuto.innerText = "Chạy tự động";
+                btnAuto.classList.replace('bg-rose-600', 'bg-slate-700');
+                btnAuto.classList.replace('hover:bg-rose-700', 'hover:bg-slate-800');
+                clearInterval(autoInterval);
+            }
+        }
+    </script>
+</body>
+</html>

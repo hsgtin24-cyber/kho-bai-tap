@@ -55,5 +55,23 @@
     "solution": "problems/2/solution.html",
     "judge_url": "https://ntduong.pythonanywhere.com/",
     "generator": "problems/2/generator.py"
+  },
+  {
+    "id": "3",
+    "title": "Mật Khẩu An Toàn",
+    "topics": [
+      "String",
+      "Two Pointers"
+    ],
+    "difficulty": 2,
+    "complexity": "O(N)",
+    "source": "Internet",
+    "tags": [
+      "string",
+      "two pointers"
+    ],
+    "solution": "problems/3/solution.html",
+    "judge_url": "https://ntduong.pythonanywhere.com/",
+    "generator": "problems/3/generator.py"
   }
 ]
