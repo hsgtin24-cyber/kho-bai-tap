@@ -1,24 +1,5 @@
 [
   {
-    "id": "xor-basic",
-    "title": "XOR Range Queries",
-    "topics": [
-      "Bitwise",
-      "Prefix Sum"
-    ],
-    "difficulty": 2,
-    "complexity": "O(N + Q)",
-    "source": "CSES",
-    "tags": [
-      "prefix xor",
-      "bit manipulation",
-      "queries"
-    ],
-    "solution": "problems/xor-basic/solution.html",
-    "judge_url": "https://cses.fi/problemset/task/1650",
-    "generator": "problems/xor-basic/make_test.py"
-  },
-  {
     "id": "1",
     "title": "Làm sạch dữu liệu",
     "topics": [
@@ -89,5 +70,23 @@
     "solution": "problems/4/solution.html",
     "judge_url": "https://ntduong.pythonanywhere.com/",
     "generator": "problems/4/generator.py"
+  },
+  {
+    "id": "5",
+    "title": "Đoạn Dây Đèn Ngắn Nhất",
+    "topics": [
+      "List",
+      "Two Pointers"
+    ],
+    "difficulty": 2,
+    "complexity": "O(N)",
+    "source": "Internet",
+    "tags": [
+      "list",
+      "two pointers"
+    ],
+    "solution": "problems/5/solution.html",
+    "judge_url": "https://ntduong.pythonanywhere.com/",
+    "generator": "problems/5/generator.py"
   }
 ]

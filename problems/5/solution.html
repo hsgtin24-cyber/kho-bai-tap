@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài giảng: Đoạn Dây Đèn Nhấp Nháy (Two Pointers)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        code { font-family: 'Fira Code', monospace; }
+        .bulb {
+            transition: all 0.3s ease;
+        }
+        .window-active { background-color: #fef08a; } /* Yellow-200 */
+        .window-best { border: 2px dashed #10b981; } /* Emerald-500 */
+        
+        #terminal::-webkit-scrollbar { width: 8px; }
+        #terminal::-webkit-scrollbar-track { background: #1f2937; }
+        #terminal::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 4px; }
+    </style>
+</head>
+<body class="text-gray-800 antialiased leading-relaxed">
+
+<div class="max-w-6xl mx-auto my-8 p-6 bg-white shadow-xl rounded-2xl">
+    
+    <header class="border-b-4 border-indigo-600 pb-6 mb-8 text-center">
+        <h1 class="text-4xl font-extrabold text-indigo-700 tracking-tight mb-2">Đoạn Dây Đèn Ngắn Nhất</h1>
+        <div class="flex justify-center gap-4 text-sm font-medium">
+            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Kỹ thuật: Kỹ thuật Hai Con Trỏ (Sliding Window)</span>
+            <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full">Độ khó: Trung Bình</span>
+            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">Thời gian: 1.0s</span>
+        </div>
+    </header>
+
+    <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-blue-500 pl-3 mb-4">📍 Phần 0: Đề bài</h2>
+        <div class="bg-blue-50 p-5 rounded-lg border border-blue-100 mb-4 text-gray-700">
+            <p class="mb-2">Minh vừa mua một bộ dây đèn nhấp nháy để trang trí cho dịp lễ sắp tới. Dây đèn gồm \(N\) bóng đèn được mắc nối tiếp, mỗi bóng đèn phát ra một màu sắc nhất định thuộc bộ \(M\) màu cơ bản (các màu được đánh số từ \(1\) đến \(M\)).</p>
+            <p class="mb-4">Bố của Minh đưa ra một thử thách: "Con hãy tìm một đoạn dây đèn liên tiếp ngắn nhất sao cho đoạn đó chứa <strong>đầy đủ tất cả \(M\) loại màu</strong>". Nếu tìm được, Minh sẽ được thưởng một món quà.</p>
+            
+            <h3 class="font-semibold text-blue-800 mt-4">Yêu cầu</h3>
+            <p class="mb-2">Cho dãy số \(A\) gồm \(N\) phần tử mô tả màu của các bóng đèn theo thứ tự (\(1 \le A_i \le M\)). Hãy tìm độ dài của đoạn con liên tiếp ngắn nhất chứa đủ các số nguyên từ \(1\) đến \(M\).</p>
+            
+            <h3 class="font-semibold text-blue-800 mt-4">Dữ liệu (Input)</h3>
+            <ul class="list-disc pl-6 mb-2">
+                <li>Dòng đầu tiên chứa hai số nguyên dương \(N\) và \(M\) (\(1 \le M \le N\)).</li>
+                <li>Dòng thứ hai chứa \(N\) số nguyên \(A_1, A_2, ..., A_N\) (\(1 \le A_i \le M\)).</li>
+            </ul>
+
+            <h3 class="font-semibold text-blue-800 mt-4">Kết quả (Output)</h3>
+            <ul class="list-disc pl-6 mb-2">
+                <li>Ghi ra một số nguyên duy nhất là độ dài của đoạn dây đèn ngắn nhất thỏa mãn yêu cầu.</li>
+                <li>Nếu không tồn tại đoạn dây nào chứa đủ \(M\) màu, ghi ra số <code>0</code>.</li>
+            </ul>
+
+            <h3 class="font-semibold text-blue-800 mt-4">Ràng buộc (Constraints)</h3>
+            <ul class="list-disc pl-6 mb-2">
+                <li><strong>30% số điểm:</strong> \(N \le 100\).</li>
+                <li><strong>60% số điểm:</strong> \(N \le 10^3\).</li>
+                <li><strong>100% số điểm:</strong> \(N \le 10^5, M \le 10^5\).</li>
+            </ul>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse rounded-lg overflow-hidden shadow-sm">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-700">
+                        <th class="p-3 border">Input (COLORS.INP)</th>
+                        <th class="p-3 border">Output (COLORS.OUT)</th>
+                        <th class="p-3 border">Giải thích</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="bg-white">
+                        <td class="p-3 border font-mono whitespace-pre-wrap">10 3
+1 2 1 3 2 2 1 3 1 1</td>
+                        <td class="p-3 border font-mono font-bold text-indigo-600 text-center">3</td>
+                        <td class="p-3 border">Đoạn ngắn nhất chứa đủ 3 màu (1, 2, 3) là đoạn từ vị trí 2 đến 4 (giá trị: 2, 1, 3), độ dài = 3.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-amber-500 pl-3 mb-4">🧠 Phần 1: Phân tích Toán học & Logic</h2>
+        <div class="space-y-4">
+            <p><strong>Dạng bài:</strong> Bài toán tìm đoạn con liên tiếp thỏa mãn điều kiện với độ dài cực tiểu. Đây là dấu hiệu đặc trưng của kỹ thuật <strong>Hai Con Trỏ (Two Pointers) / Cửa sổ trượt (Sliding Window)</strong>.</p>
+            
+            <p><strong>Phân tích logic:</strong></p>
+            <ul class="list-disc pl-6">
+                <li>Gọi đoạn con đang xét là \([L, R]\). Ta cần đảm bảo trong đoạn này có đủ các phần tử từ \(1\) đến \(M\).</li>
+                <li>Mở rộng cửa sổ: Tăng dần \(R\) để thêm phần tử vào cửa sổ cho đến khi cửa sổ chứa đủ \(M\) màu phân biệt.</li>
+                <li>Thu hẹp cửa sổ: Khi cửa sổ đã đủ \(M\) màu, ta cập nhật kết quả (độ dài \(R - L + 1\)). Sau đó, ta thử loại bỏ phần tử ở vị trí \(L\) (tăng \(L\)) để xem có thể thu được một đoạn ngắn hơn mà vẫn đủ \(M\) màu hay không.</li>
+                <li>Quá trình lặp lại đến khi \(R\) duyệt hết mảng.</li>
+            </ul>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg shadow-sm">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm leading-5 font-bold text-yellow-800">CẢNH BÁO KIỂU DỮ LIỆU & ĐỘ PHỨC TẠP:</h3>
+                        <p class="text-sm leading-5 text-yellow-700 mt-1">
+                            Giới hạn lớn nhất là \(N \le 10^5\). Nếu dùng thuật toán \(O(N^2)\) sẽ mất khoảng \(10^{10}\) phép toán, dẫn đến <strong>Time Limit Exceeded (TLE)</strong>. Giải pháp \(O(N)\) là bắt buộc cho 100% số điểm. Mảng đếm tần số màu có kích thước tối đa là \(10^5\), hoàn toàn nằm trong giới hạn bộ nhớ.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-green-500 pl-3 mb-4">⚙️ Phần 2: Phân tích cách giải (Subtasks)</h2>
+        
+        <div class="mb-8">
+            <h3 class="text-xl font-bold text-gray-700 mb-3">Cách 1: Vét cạn (Brute Force) - Duyệt mọi đoạn con</h3>
+            <p class="mb-2"><strong>Ý tưởng logic:</strong> Dùng 2 vòng lặp <code>i</code> và <code>j</code> để xác định điểm đầu và cuối của mọi đoạn con có thể có. Dùng một mảng đánh dấu hoặc cấu trúc Set để đếm số màu phân biệt trong đoạn <code>[i..j]</code>. Nếu đoạn có đủ <code>M</code> màu, cập nhật kết quả.</p>
+            
+            <blockquote class="border-l-4 border-gray-300 bg-gray-50 p-4 text-gray-600 italic font-serif mb-4 rounded-r">
+                Mã giả: <br>
+                ans = vô cực <br>
+                Với mỗi i từ 1 đến N: <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Tạo một tập hợp màu sắc (Set) rỗng <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Với mỗi j từ i đến N: <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thêm A[j] vào tập hợp <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nếu kích thước tập hợp == M: <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ans = min(ans, j - i + 1) <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dừng vòng lặp j (vì các đoạn dài hơn không còn tối ưu) <br>
+            </blockquote>
+
+            <pre><code class="language-python rounded-lg shadow-md text-sm" style="font-family: 'Fira Code', monospace;">def solve_subtask_1(n, m, a):
+    ans = float('inf')
+    for i in range(n):
+        colors = set()
+        for j in range(i, n):
+            colors.add(a[j])
+            if len(colors) == m:
+                ans = min(ans, j - i + 1)
+                break # Không cần xét j lớn hơn vì đang cần tìm đoạn ngắn nhất
+    return ans if ans != float('inf') else 0
+</code></pre>
+        </div>
+
+        <div>
+            <h3 class="text-xl font-bold text-gray-700 mb-3">Cách 2: Tối ưu (Sliding Window) - 100% số điểm</h3>
+            <p class="mb-2"><strong>Ý tưởng logic:</strong> Thay vì tính lại số lượng màu từ đầu cho mỗi đoạn, ta dùng hai biến `left` và `right` để duy trì một cửa sổ trượt. Dùng một mảng tần số `count` lưu số lượng của từng màu trong cửa sổ. Biến `unique_colors` đếm số loại màu hiện tại. Trượt `right` sang phải, nếu mảng đủ màu thì cập nhật Min và thử co `left` sang phải để tìm đoạn ngắn hơn.</p>
+            
+            <blockquote class="border-l-4 border-green-300 bg-green-50 p-4 text-gray-600 italic font-serif mb-4 rounded-r">
+                Mã giả: <br>
+                ans = vô cực, left = 0, unique_colors = 0 <br>
+                Tạo mảng freq[1..M] = 0 <br>
+                Với right chạy từ 0 đến N-1: <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Nếu freq[A[right]] == 0 thì unique_colors++ <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;freq[A[right]]++ <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Trong khi unique_colors == M: <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ans = min(ans, right - left + 1) <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;freq[A[left]]-- <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nếu freq[A[left]] == 0 thì unique_colors-- <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left++ <br>
+            </blockquote>
+
+            <pre><code class="language-python rounded-lg shadow-md text-sm" style="font-family: 'Fira Code', monospace;">import sys
+
+def solve_subtask_2(n, m, a):
+    ans = float('inf')
+    freq = [0] * (m + 1)
+    unique_colors = 0
+    left = 0
+    
+    for right in range(n):
+        color = a[right]
+        if freq[color] == 0:
+            unique_colors += 1
+        freq[color] += 1
+        
+        while unique_colors == m:
+            # Cập nhật kết quả với cửa sổ hiện tại
+            ans = min(ans, right - left + 1)
+            
+            # Bắt đầu thu hẹp từ bên trái
+            left_color = a[left]
+            freq[left_color] -= 1
+            if freq[left_color] == 0:
+                unique_colors -= 1
+            left += 1
+            
+    return ans if ans != float('inf') else 0
+
+# Đọc dữ liệu mẫu
+# n, m = map(int, sys.stdin.readline().split())
+# a = list(map(int, sys.stdin.readline().split()))
+# print(solve_subtask_2(n, m, a))
+</code></pre>
+        </div>
+    </section>
+
+    <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-purple-500 pl-3 mb-4">📊 Phần 3: Bảng So Sánh Thuật Toán</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse rounded-lg overflow-hidden shadow-sm">
+                <thead>
+                    <tr class="bg-purple-100 text-purple-900">
+                        <th class="p-3 border font-semibold">Thuật toán</th>
+                        <th class="p-3 border font-semibold">Độ phức tạp thời gian (Time)</th>
+                        <th class="p-3 border font-semibold">Độ phức tạp không gian (Space)</th>
+                        <th class="p-3 border font-semibold">Dự kiến đạt điểm</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white">
+                    <tr class="hover:bg-purple-50">
+                        <td class="p-3 border font-medium">Cách 1: Vét cạn (Brute Force)</td>
+                        <td class="p-3 border text-center">\(O(N^2)\)</td>
+                        <td class="p-3 border text-center">\(O(M)\)</td>
+                        <td class="p-3 border font-semibold text-red-600">30% - 60% (TLE trên Test lớn)</td>
+                    </tr>
+                    <tr class="hover:bg-purple-50">
+                        <td class="p-3 border font-medium">Cách 2: Hai Con Trỏ (Sliding Window)</td>
+                        <td class="p-3 border text-center">\(O(N)\)</td>
+                        <td class="p-3 border text-center">\(O(M)\)</td>
+                        <td class="p-3 border font-semibold text-green-600">100% (Accepted)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="text-sm text-gray-600 mt-2 italic">* Giải thích thời gian \(O(N)\) của Hai Con Trỏ: Mỗi phần tử được biến <code>right</code> xét đúng 1 lần và biến <code>left</code> loại bỏ tối đa 1 lần. Tổng số bước là \(2N\), quy về \(O(N)\).</p>
+    </section>
+
+    <section>
+        <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-teal-500 pl-3 mb-4">💻 Phần 4: Trình Mô Phỏng Tương Tác (Algorithm Visualizer)</h2>
+        <p class="text-gray-600 mb-6">Hãy nhập một mảng \(A\), số lượng màu \(M\) và <strong>chọn thuật toán</strong> để xem quá trình chạy từng bước. Quan sát sự thay đổi của các con trỏ <code>L</code> (trái) và <code>R</code> (phải) cũng như bảng đếm màu.</p>
+        
+        <div class="flex flex-col lg:flex-row gap-6">
+            <div class="w-full lg:w-1/3 bg-gray-50 p-5 border border-gray-200 rounded-xl shadow-sm">
+                <h3 class="text-lg font-bold text-gray-700 mb-4 border-b pb-2">Control Panel</h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Mảng A (cách nhau bởi dấu phẩy):</label>
+                        <input type="text" id="arrInput" class="w-full px-3 py-2 border rounded-md focus:ring focus:ring-teal-200 font-mono text-sm" value="1, 2, 1, 3, 2, 2, 1, 3, 1, 1">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Số lượng màu (M):</label>
+                        <input type="number" id="mInput" class="w-full px-3 py-2 border rounded-md focus:ring focus:ring-teal-200" value="3" min="1">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Chọn Thuật Toán:</label>
+                        <select id="algoSelect" class="w-full px-3 py-2 border rounded-md focus:ring focus:ring-teal-200 bg-white cursor-pointer font-medium text-gray-800">
+                            <option value="2">Cách 2: Hai Con Trỏ (Tối ưu - O(N))</option>
+                            <option value="1">Cách 1: Vét cạn (Brute Force - O(N²))</option>
+                        </select>
+                    </div>
+                    
+                    <div class="pt-2">
+                        <div class="flex flex-wrap gap-2">
+                            <button id="btnLoad" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded shadow transition">Nạp Dữ Liệu</button>
+                            <button id="btnStep" class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded shadow transition disabled:opacity-50">Bước Tiếp</button>
+                            <button id="btnAuto" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded shadow transition disabled:opacity-50">Chạy Tự Động</button>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <div class="text-sm mb-2 font-semibold">Bảng đếm màu trong đoạn [L..R]:</div>
+                        <div id="freqTable" class="flex flex-wrap gap-2">
+                            <span class="text-gray-500 italic text-xs">Chưa có dữ liệu</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <div class="text-sm font-semibold">Trạng thái hiện tại:</div>
+                        <div class="grid grid-cols-2 gap-2 text-sm mt-2">
+                            <div class="bg-white border p-2 rounded text-center shadow-sm">
+                                <span class="block text-gray-500 text-xs">Số màu phân biệt</span>
+                                <span id="statUnique" class="font-bold text-lg text-teal-600">0 / 0</span>
+                            </div>
+                            <div class="bg-white border p-2 rounded text-center shadow-sm">
+                                <span class="block text-gray-500 text-xs">Min Length</span>
+                                <span id="statMinLen" class="font-bold text-lg text-red-500">∞</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="w-full lg:w-2/3 flex flex-col gap-4">
+                
+                <div class="bg-white p-4 border border-gray-200 rounded-xl shadow-sm relative min-h-[160px] flex items-center justify-center overflow-x-auto">
+                    <div id="arrayContainer" class="flex items-end gap-1 px-4 py-8">
+                        <span class="text-gray-400 italic text-sm">Vui lòng bấm Nạp Dữ Liệu để hiển thị</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-4 text-xs font-semibold justify-center bg-gray-50 py-2 rounded-lg border">
+                    <div class="flex items-center gap-1"><div class="w-3 h-3 bg-gray-200 border border-gray-400"></div> Chưa xét</div>
+                    <div class="flex items-center gap-1"><div class="w-3 h-3 bg-yellow-200 border border-yellow-400"></div> Đang trong đoạn [L..R]</div>
+                    <div class="flex items-center gap-1"><div class="w-3 h-3 bg-transparent border-2 border-dashed border-emerald-500"></div> Kết quả tốt nhất</div>
+                    <div class="flex items-center gap-1"><span class="text-red-500 font-bold">L↓</span> Vị trí Bắt đầu (i/left)</div>
+                    <div class="flex items-center gap-1"><span class="text-blue-500 font-bold">R↓</span> Vị trí Kết thúc (j/right)</div>
+                </div>
+                
+                <div id="terminal" class="bg-[#1e1e1e] text-green-400 font-mono text-[13px] leading-relaxed p-4 rounded-xl shadow-inner h-64 overflow-y-auto">
+                    <div class="text-gray-500">// Terminal System Initialized.</div>
+                    <div class="text-gray-500">// Chờ tải dữ liệu bài toán...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    // Initialize Highlight.js
+    document.addEventListener('DOMContentLoaded', (event) => {
+        hljs.highlightAll();
+    });
+
+    // Color pallete for bulbs
+    const colorClasses = [
+        'bg-gray-100', // 0 unused
+        'bg-red-300', 'bg-blue-300', 'bg-green-300', 'bg-yellow-300', 
+        'bg-purple-300', 'bg-pink-300', 'bg-indigo-300', 'bg-orange-300', 'bg-teal-300', 'bg-cyan-300'
+    ];
+
+    // DOM Elements
+    const btnLoad = document.getElementById('btnLoad');
+    const btnStep = document.getElementById('btnStep');
+    const btnAuto = document.getElementById('btnAuto');
+    const arrInput = document.getElementById('arrInput');
+    const mInput = document.getElementById('mInput');
+    const algoSelect = document.getElementById('algoSelect');
+    const arrayContainer = document.getElementById('arrayContainer');
+    const terminal = document.getElementById('terminal');
+    const freqTable = document.getElementById('freqTable');
+    const statUnique = document.getElementById('statUnique');
+    const statMinLen = document.getElementById('statMinLen');
+
+    let currentArray = [];
+    let requiredM = 0;
+    let simGenerator = null;
+    let autoRunInterval = null;
+
+    // Terminal Logger
+    function printLog(msg, type = 'system') {
+        const div = document.createElement('div');
+        const time = new Date().toLocaleTimeString('en-US', { hour12: false, hour: "numeric", minute: "numeric", second: "numeric" });
+        let colorClass = 'text-gray-400';
+        let prefix = '[SYS]';
+
+        if(type === 'info') { colorClass = 'text-blue-300'; prefix = '[INFO]'; }
+        if(type === 'warn') { colorClass = 'text-yellow-300'; prefix = '[SHRINK]'; }
+        if(type === 'error') { colorClass = 'text-red-400'; prefix = '[ERR]'; }
+        if(type === 'success') { colorClass = 'text-green-400'; prefix = '[FOUND]'; }
+        if(type === 'highlight') { colorClass = 'text-pink-300'; prefix = '[BEST]'; }
+
+        div.innerHTML = `<span class="text-gray-500">[${time}]</span> <span class="${colorClass} font-bold">${prefix}</span> <span class="text-gray-200">${msg}</span>`;
+        terminal.appendChild(div);
+        terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    // Render Array
+    function renderArray(arr, left = -1, right = -1, bestL = -1, bestR = -1) {
+        arrayContainer.innerHTML = '';
+        arr.forEach((val, idx) => {
+            const elWrapper = document.createElement('div');
+            elWrapper.className = 'flex flex-col items-center relative gap-1';
+            
+            // Pointer indicators
+            const ptrDiv = document.createElement('div');
+            ptrDiv.className = 'h-4 w-full flex justify-center items-center text-[10px] font-bold absolute -top-5 gap-1';
+            let ptrStr = '';
+            if (idx === left) ptrStr += '<span class="text-red-500">L↓</span>';
+            if (idx === right) ptrStr += '<span class="text-blue-500">R↓</span>';
+            ptrDiv.innerHTML = ptrStr;
+
+            // Box
+            const box = document.createElement('div');
+            box.className = `w-10 h-10 flex items-center justify-center font-bold text-gray-800 border-2 rounded shadow-sm bulb ${getColor(val)}`;
+            
+            // Highlight window
+            if (left !== -1 && right !== -1 && idx >= left && idx <= right) {
+                box.classList.add('border-gray-500', 'shadow-md');
+                box.style.transform = "scale(1.1)";
+            } else if (left !== -1 && right === -1 && idx === left) {
+                box.classList.add('border-gray-500', 'shadow-md');
+                box.style.transform = "scale(1.1)";
+            } else {
+                box.classList.add('border-gray-300');
+            }
+
+            // Highlight Best
+            if (bestL !== -1 && idx >= bestL && idx <= bestR) {
+                box.classList.add('window-best');
+            }
+
+            // Index
+            const idxDiv = document.createElement('div');
+            idxDiv.className = 'text-[10px] text-gray-400 font-mono';
+            idxDiv.innerText = idx;
+
+            elWrapper.appendChild(ptrDiv);
+            elWrapper.appendChild(box);
+            elWrapper.appendChild(idxDiv);
+            arrayContainer.appendChild(elWrapper);
+        });
+    }
+
+    function getColor(val) {
+        if(val >= 1 && val < colorClasses.length) return colorClasses[val];
+        return 'bg-gray-300'; // Default
+    }
+
+    // Render Frequency Table
+    function renderFreqTable(freqMap, m) {
+        freqTable.innerHTML = '';
+        for(let i=1; i<=m; i++) {
+            const count = freqMap[i] || 0;
+            const badge = document.createElement('div');
+            badge.className = `px-2 py-1 text-xs rounded border font-mono ${count > 0 ? 'bg-green-100 border-green-300 text-green-800 font-bold' : 'bg-gray-100 border-gray-200 text-gray-400'}`;
+            badge.innerHTML = `Màu ${i}: ${count}`;
+            freqTable.appendChild(badge);
+        }
+    }
+
+    // GENERATOR: Cách 1 - Brute Force
+    function* bruteForceGenerator(arr, m) {
+        let n = arr.length;
+        let minLen = Infinity;
+        let bestL = -1, bestR = -1;
+
+        yield { left: -1, right: -1, bestL, bestR, freq: {}, uniqueColors: 0, minLen, msg: `[VÉT CẠN O(N²)] Bắt đầu duyệt mọi đoạn con có thể.`, type: 'system' };
+
+        for (let i = 0; i < n; i++) {
+            let freq = {};
+            for(let k=1; k<=m; k++) freq[k] = 0;
+            let uniqueColors = 0;
+
+            yield { left: i, right: -1, bestL, bestR, freq, uniqueColors, minLen, msg: `Thiết lập L=${i}: Bắt đầu xét tập hợp màu mới.`, type: 'info' };
+
+            for (let j = i; j < n; j++) {
+                let color = arr[j];
+                if (color >= 1 && color <= m) {
+                    if (freq[color] === 0) uniqueColors++;
+                    freq[color]++;
+                }
+                
+                let currentLen = j - i + 1;
+                yield { left: i, right: j, bestL, bestR, freq, uniqueColors, minLen, msg: `Duyệt R=${j}: Thêm màu [${color}]. Đang có ${uniqueColors}/${m} loại màu.`, type: 'system' };
+
+                if (uniqueColors === m) {
+                    yield { left: i, right: j, bestL, bestR, freq, uniqueColors, minLen, msg: `Đoạn [${i}..${j}] đã đủ ${m} màu.`, type: 'success' };
+                    if (currentLen < minLen) {
+                        minLen = currentLen;
+                        bestL = i;
+                        bestR = j;
+                        yield { left: i, right: j, bestL, bestR, freq, uniqueColors, minLen, msg: `Cập nhật MIN LENGTH mới: ${minLen} tại đoạn [${bestL}..${bestR}]`, type: 'highlight' };
+                    }
+                    yield { left: i, right: j, bestL, bestR, freq, uniqueColors, minLen, msg: `Dừng vòng lặp R tại đây vì các đoạn dài hơn không còn tối ưu.`, type: 'warn' };
+                    break;
+                }
+            }
+        }
+        yield { left: -1, right: -1, bestL, bestR, freq: {}, uniqueColors: 0, minLen, msg: `KẾT THÚC THUẬT TOÁN! Đoạn ngắn nhất có độ dài: ${minLen === Infinity ? 0 : minLen}`, type: 'system', done: true };
+    }
+
+    // GENERATOR: Cách 2 - Two Pointers
+    function* twoPointersGenerator(arr, m) {
+        let n = arr.length;
+        let left = 0, right = 0;
+        let freq = {};
+        for(let i=1; i<=m; i++) freq[i] = 0;
+        
+        let uniqueColors = 0;
+        let minLen = Infinity;
+        let bestL = -1, bestR = -1;
+
+        yield { left: 0, right: 0, bestL, bestR, freq, uniqueColors, minLen, msg: `[HAI CON TRỎ O(N)] Khởi tạo L=0, R=0`, type: 'system' };
+
+        while (right < n) {
+            let colorIn = arr[right];
+            if(colorIn <= m && colorIn >= 1) {
+                if (freq[colorIn] === 0) uniqueColors++;
+                freq[colorIn]++;
+            }
+            
+            yield { left, right, bestL, bestR, freq, uniqueColors, minLen, msg: `Tiến R=${right}: Thêm màu [${colorIn}] vào cửa sổ.`, type: 'info' };
+
+            while (uniqueColors === m) {
+                let currentLen = right - left + 1;
+                
+                yield { left, right, bestL, bestR, freq, uniqueColors, minLen, msg: `Cửa sổ [${left}..${right}] (dài ${currentLen}) chứa ĐỦ ${m} màu.`, type: 'success' };
+
+                if (currentLen < minLen) {
+                    minLen = currentLen;
+                    bestL = left;
+                    bestR = right;
+                    yield { left, right, bestL, bestR, freq, uniqueColors, minLen, msg: `Cập nhật MIN LENGTH mới: ${minLen} tại đoạn [${bestL}..${bestR}]`, type: 'highlight' };
+                }
+
+                let colorOut = arr[left];
+                if(colorOut <= m && colorOut >= 1) {
+                    freq[colorOut]--;
+                    if (freq[colorOut] === 0) uniqueColors--;
+                }
+                left++;
+                
+                yield { left, right, bestL, bestR, freq, uniqueColors, minLen, msg: `Thu hẹp L=${left}: Bỏ màu [${colorOut}] khỏi cửa sổ.`, type: 'warn' };
+            }
+            right++;
+        }
+        
+        yield { left: -1, right: -1, bestL, bestR, freq, uniqueColors, minLen, msg: `KẾT THÚC THUẬT TOÁN! Đoạn ngắn nhất có độ dài: ${minLen === Infinity ? 0 : minLen}`, type: 'system', done: true };
+    }
+
+    // Load Data & Initialize
+    btnLoad.addEventListener('click', () => {
+        stopAuto();
+        const rawArr = arrInput.value.split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n));
+        const rawM = parseInt(mInput.value.trim());
+
+        if (rawArr.length === 0 || isNaN(rawM) || rawM < 1) {
+            printLog("Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.", "error");
+            return;
+        }
+
+        currentArray = rawArr;
+        requiredM = rawM;
+        const selectedAlgo = algoSelect.value;
+        const algoName = selectedAlgo === '1' ? 'Vét cạn (Brute Force)' : 'Hai Con Trỏ (Sliding Window)';
+        
+        terminal.innerHTML = '';
+        printLog(`Đã nạp mảng có ${currentArray.length} phần tử, M = ${requiredM}`, 'system');
+        printLog(`Đã chọn thuật toán: ${algoName}`, 'highlight');
+        
+        renderArray(currentArray);
+        renderFreqTable({}, requiredM);
+        statUnique.innerText = `0 / ${requiredM}`;
+        statMinLen.innerText = `∞`;
+
+        if (selectedAlgo === '1') {
+            simGenerator = bruteForceGenerator(currentArray, requiredM);
+        } else {
+            simGenerator = twoPointersGenerator(currentArray, requiredM);
+        }
+        
+        btnStep.disabled = false;
+        btnAuto.disabled = false;
+    });
+
+    // Step Execution
+    function doStep() {
+        if (!simGenerator) return false;
+        const result = simGenerator.next();
+        if (result.value) {
+            const state = result.value;
+            printLog(state.msg, state.type);
+            if(!state.done) {
+                renderArray(currentArray, state.left, state.right, state.bestL, state.bestR);
+                renderFreqTable(state.freq, requiredM);
+                statUnique.innerText = `${state.uniqueColors} / ${requiredM}`;
+                statMinLen.innerText = state.minLen === Infinity ? '∞' : state.minLen;
+            } else {
+                // Final render
+                renderArray(currentArray, -1, -1, state.bestL, state.bestR);
+            }
+        }
+        
+        if (result.done) {
+            simGenerator = null;
+            btnStep.disabled = true;
+            btnAuto.disabled = true;
+            stopAuto();
+            return false;
+        }
+        return true;
+    }
+
+    btnStep.addEventListener('click', () => {
+        stopAuto();
+        doStep();
+    });
+
+    function stopAuto() {
+        if (autoRunInterval) {
+            clearInterval(autoRunInterval);
+            autoRunInterval = null;
+            btnAuto.innerText = "Chạy Tự Động";
+            btnAuto.classList.replace("bg-red-600", "bg-indigo-600");
+            btnAuto.classList.replace("hover:bg-red-700", "hover:bg-indigo-700");
+        }
+    }
+
+    btnAuto.addEventListener('click', () => {
+        if (autoRunInterval) {
+            stopAuto();
+        } else {
+            btnAuto.innerText = "Dừng";
+            btnAuto.classList.replace("bg-indigo-600", "bg-red-600");
+            btnAuto.classList.replace("hover:bg-indigo-700", "hover:bg-red-700");
+            autoRunInterval = setInterval(() => {
+                const hasNext = doStep();
+                if (!hasNext) stopAuto();
+            }, 800);
+        }
+    });
+
+    // Auto-load initial state on startup
+    btnLoad.click();
+
+</script>
+</body>
+</html>
