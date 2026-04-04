@@ -35,7 +35,7 @@ def main():
     # 1. Thu thập thông tin
     prob_id = input("ID bài toán (vd: knapsack-dp): ").strip().lower().replace(" ", "-")
     title = input("Tên bài toán: ").strip()
-    topics_input = input("Chủ đề (cách nhau bởi dấu phẩy, vd: String, Set, Tuple, Dict, Math, Matrix, Two Pointers, Bitwise, Prefix Sum, Segment Tree, DP, Greedy, Graph): ").strip()
+    topics_input = input("Chủ đề (cách nhau bởi dấu phẩy, vd: String, List, Set, Tuple, Dict, Math, Matrix, Two Pointers, Bitwise, Prefix Sum, Segment Tree, DP, Greedy, Graph): ").strip()
     topics = [t.strip() for t in topics_input.split(',')] if topics_input else []
     
     difficulty = input("Độ khó (1-5): ").strip()
