@@ -126,5 +126,25 @@
     "solution": "problems/7/solution.html",
     "judge_url": "https://ntduong.pythonanywhere.com/",
     "generator": "problems/7/generator.py"
+  },
+  {
+    "id": "8",
+    "title": "Đếm dãy con có tổng chia hết cho K",
+    "topics": [
+      "List",
+      "Prefix Sum",
+      "Hash Map"
+    ],
+    "difficulty": 3,
+    "complexity": "O(N)",
+    "source": "Internet",
+    "tags": [
+      "list",
+      "prefix sum",
+      "hash map"
+    ],
+    "solution": "problems/8/solution.html",
+    "judge_url": "https://ntduong.pythonanywhere.com/",
+    "generator": "problems/8/generator.py"
   }
 ]

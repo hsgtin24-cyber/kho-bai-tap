@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Giảng: Dãy Con Có Tổng Chia Hết Cho K</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+        .terminal-bg { background-color: #1e1e2e; }
+        .terminal-text { font-family: 'Fira Code', 'Courier New', Courier, monospace; }
+        .terminal-scroll::-webkit-scrollbar { width: 8px; }
+        .terminal-scroll::-webkit-scrollbar-track { background: #1e1e2e; }
+        .terminal-scroll::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 4px; }
+        .terminal-scroll::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased pb-20">
+
+    <header class="bg-gradient-to-r from-teal-700 to-emerald-900 text-white shadow-lg py-8 px-6 mb-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold mb-2">ĐẾM DÃY CON CÓ TỔNG CHIA HẾT CHO K</h1>
+                    <p class="text-teal-200 text-lg">Chuyên đề: Mảng cộng dồn (Prefix Sum) & Đồng dư thức (Modular Arithmetic)</p>
+                </div>
+                <div class="text-right hidden md:block">
+                    <span class="bg-yellow-400 text-yellow-900 font-bold px-4 py-2 rounded-full shadow-md">Thử Thách | Độ khó: Medium-Hard</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 space-y-12">
+        
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-900 border-b-2 border-teal-500 pb-2 mb-6 flex items-center">
+                <span class="bg-teal-100 text-teal-700 px-3 py-1 rounded-lg mr-3 text-sm">Phần 0</span> Đề Bài Chi Tiết
+            </h2>
+            <div class="prose max-w-none text-slate-700">
+                <p>Trong một lễ hội toán học, ban tổ chức đưa ra một dãy các hộp quà đánh số từ 1 đến $n$, mỗi hộp quà chứa một thẻ số nguyên. Thử thách dành cho các bạn học sinh là tìm ra những đoạn quà liên tiếp sao cho tổng các giá trị ghi trên thẻ trong đoạn đó là một số chia hết cho số may mắn $k$ của năm nay.</p>
+                <p class="font-semibold mt-4">Yêu cầu:</p>
+                <p>Cho dãy số nguyên $A$ gồm $n$ phần tử và số nguyên $k$ ($k \neq 0$). Hãy đếm số lượng dãy con liên tiếp trong dãy $A$ sao cho tổng các phần tử của dãy con đó chia hết cho $k$.</p>
+                
+                <h3 class="text-lg font-bold mt-6 mb-2">Dữ liệu vào (Input)</h3>
+                <ul class="list-disc pl-5">
+                    <li><strong>Dòng 1:</strong> Ghi hai số nguyên $n$ và $k$ ($1 \le n \le 10^5, 2 \le |k| \le 10^5$).</li>
+                    <li><strong>Dòng 2:</strong> Ghi $n$ số nguyên của dãy $A$ (giá trị tuyệt đối của mỗi số không quá $10^9$).</li>
+                </ul>
+
+                <h3 class="text-lg font-bold mt-6 mb-2">Dữ liệu ra (Output)</h3>
+                <p>Một số nguyên duy nhất là số lượng dãy con liên tiếp tìm được.</p>
+
+                <h3 class="text-lg font-bold mt-6 mb-3">Ví dụ (Sample Test)</h3>
+                <div class="overflow-hidden rounded-lg border border-slate-300">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-300">
+                                <th class="p-4 font-mono font-bold text-slate-800">DIVISIBLE.INP</th>
+                                <th class="p-4 font-mono font-bold text-slate-800">DIVISIBLE.OUT</th>
+                                <th class="p-4 font-mono font-bold text-slate-800">GIẢI THÍCH</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="divide-x divide-slate-300">
+                                <td class="p-4 font-mono align-top whitespace-pre">5 3
+4 5 0 -2 6</td>
+                                <td class="p-4 font-mono align-top text-teal-700 font-bold">6</td>
+                                <td class="p-4 text-sm text-slate-600 align-top">
+                                    Các dãy con có tổng chia hết cho 3 là:<br>
+                                    1. [4, 5] (Tổng = 9)<br>
+                                    2. [4, 5, 0] (Tổng = 9)<br>
+                                    3. [0] (Tổng = 0)<br>
+                                    4. [5, 0, -2] (Tổng = 3)<br>
+                                    5. [5, 0, -2, 6] (Tổng = 9)<br>
+                                    6. [6] (Tổng = 6)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-900 border-b-2 border-teal-500 pb-2 mb-6 flex items-center">
+                <span class="bg-teal-100 text-teal-700 px-3 py-1 rounded-lg mr-3 text-sm">Phần 1</span> Phân Tích Toán Học & Logic
+            </h2>
+            <div class="space-y-4 text-slate-700">
+                <p><strong>Dạng bài:</strong> Đếm dãy con dựa trên Đồng dư thức (Subarray Sums Divisible by K).</p>
+                <p><strong>Cơ sở toán học:</strong> Gọi $P[i]$ là tổng cộng dồn (Prefix Sum) từ đầu mảng đến phần tử thứ $i$. Tổng của dãy con từ $i$ đến $j$ là: 
+                $$\sum_{m=i}^{j} A[m] = P[j] - P[i-1]$$
+                </p>
+                <p>Đề bài yêu cầu tổng dãy con chia hết cho $k$, tức là:</p>
+                <p class="text-center font-bold text-lg bg-slate-50 py-3 rounded-lg border border-slate-200">
+                    $(P[j] - P[i-1]) \equiv 0 \pmod k \iff P[j] \equiv P[i-1] \pmod k$
+                </p>
+                <p><strong>Kết luận cực kỳ quan trọng:</strong> Hai vị trí có cùng số dư (khi chia cho $k$) sẽ tạo thành một dãy con có tổng chia hết cho $k$. Vậy thay vì lặp qua từng dãy con, ta chỉ cần <strong>đếm tần suất xuất hiện của các số dư</strong> từ mảng Prefix Sum, sau đó lấy tổ hợp chập 2, hoặc cộng dồn trực tiếp khi lặp.</p>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mt-6 rounded-r-lg shadow-sm">
+                    <div class="flex items-start">
+                        <svg class="h-6 w-6 text-yellow-600 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <div>
+                            <h3 class="font-bold text-yellow-800 text-lg">CẢNH BÁO: TOÁN TỬ MODULO VỚI SỐ ÂM</h3>
+                            <ul class="list-disc pl-5 mt-2 text-yellow-900 space-y-1">
+                                <li>Trong C++/Java/C#, toán tử <code>%</code> có thể trả về số âm (vd: <code>-2 % 3 = -2</code>). Trong toán học đồng dư, số dư phải $\ge 0$.</li>
+                                <li><strong>Cách xử lý chuẩn:</strong> <code>rem = ((current_sum % k) + k) % k</code>. Phép toán này đảm bảo số dư luôn nằm trong khoảng $[0, k-1]$.</li>
+                                <li>Python thì <code>%</code> tự động xử lý trả về số dương nên <code>current_sum % k</code> là đủ, nhưng cẩn thận khi chuyển ngữ qua C++.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-900 border-b-2 border-teal-500 pb-2 mb-6 flex items-center">
+                <span class="bg-teal-100 text-teal-700 px-3 py-1 rounded-lg mr-3 text-sm">Phần 2</span> Phân Tích Cách Giải
+            </h2>
+
+            <div class="mb-10">
+                <h3 class="text-xl font-bold text-indigo-700 mb-3 flex items-center">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                    Cách 1: Vét cạn (Brute Force) - Đáp ứng Subtask N ≤ 1000
+                </h3>
+                <div class="pl-8 space-y-4 border-l-2 border-indigo-200">
+                    <p class="text-slate-700">Duyệt mọi cặp chỉ số đầu $i$ và cuối $j$, tính tổng đoạn và kiểm tra chia hết cho $k$.</p>
+                    <blockquote class="bg-indigo-50 border-l-4 border-indigo-400 p-4 text-slate-700 italic rounded-r-lg font-serif">
+                        Khởi tạo ans = 0<br>
+                        Với mỗi i từ 0 đến n-1:<br>
+                        &nbsp;&nbsp;sum = 0<br>
+                        &nbsp;&nbsp;Với mỗi j từ i đến n-1:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;sum += A[j]<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Nếu sum % k == 0 thì ans += 1<br>
+                        Trả về ans
+                    </blockquote>
+<pre><code class="language-python rounded-lg shadow-md text-sm" style="font-family: 'Fira Code', monospace;">def solve_brute_force(A, k):
+    n = len(A)
+    ans = 0
+    for i in range(n):
+        current_sum = 0
+        for j in range(i, n):
+            current_sum += A[j]
+            if current_sum % k == 0:
+                ans += 1
+    return ans
+</code></pre>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-bold text-green-700 mb-3 flex items-center">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    Cách 2: Prefix Sum + Hash Map (Tối ưu) - AC 100% Điểm
+                </h3>
+                <div class="pl-8 space-y-4 border-l-2 border-green-200">
+                    <p class="text-slate-700">Sử dụng mảng hoặc Dictionary (Bảng băm) để lưu tần suất các số dư. Đừng quên khởi tạo <code>freq[0] = 1</code> vì nếu bản thân <code>current_sum</code> chia hết cho $k$, nó tạo thành một dãy con hợp lệ tính từ đầu mảng.</p>
+                    <blockquote class="bg-green-50 border-l-4 border-green-400 p-4 text-slate-700 italic rounded-r-lg font-serif">
+                        Khởi tạo mảng freq cỡ k với tất cả giá trị là 0<br>
+                        freq[0] = 1<br>
+                        Khởi tạo current_sum = 0, count = 0<br>
+                        Duyệt x trong mảng A:<br>
+                        &nbsp;&nbsp;current_sum += x<br>
+                        &nbsp;&nbsp;rem = ((current_sum % k) + k) % k<br>
+                        &nbsp;&nbsp;count += freq[rem]<br>
+                        &nbsp;&nbsp;freq[rem] += 1<br>
+                        Trả về count
+                    </blockquote>
+<pre><code class="language-python rounded-lg shadow-md text-sm" style="font-family: 'Fira Code', monospace;">def solve_optimal(A, k):
+    # Dùng Dictionary đếm số dư
+    freq = {0: 1} 
+    current_sum = 0
+    count = 0
+    
+    for x in A:
+        current_sum += x
+        # Đảm bảo số dư luôn dương
+        rem = ((current_sum % k) + k) % k
+        
+        if rem in freq:
+            count += freq[rem]
+            freq[rem] += 1
+        else:
+            freq[rem] = 1
+            
+    return count
+</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-900 border-b-2 border-teal-500 pb-2 mb-6 flex items-center">
+                <span class="bg-teal-100 text-teal-700 px-3 py-1 rounded-lg mr-3 text-sm">Phần 3</span> Bảng So Sánh Thuật Toán
+            </h2>
+            <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-slate-800 text-white">
+                        <tr>
+                            <th class="p-4 font-semibold">Thuật toán</th>
+                            <th class="p-4 font-semibold">Thời gian</th>
+                            <th class="p-4 font-semibold">Không gian</th>
+                            <th class="p-4 font-semibold text-center">N tối đa</th>
+                            <th class="p-4 font-semibold text-center">Đánh giá</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 font-medium text-slate-900">Cách 1: Vét cạn</td>
+                            <td class="p-4">$O(N^2)$</td>
+                            <td class="p-4">$O(1)$</td>
+                            <td class="p-4 text-center">$10^4$</td>
+                            <td class="p-4 text-center"><span class="bg-red-100 text-red-700 px-2 py-1 rounded font-bold text-xs">TLE (Subtask Lớn)</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition bg-green-50">
+                            <td class="p-4 font-bold text-green-800">Cách 2: Đếm Số dư</td>
+                            <td class="p-4 font-bold text-green-800">$O(N)$</td>
+                            <td class="p-4 text-green-800">$O(K)$</td>
+                            <td class="p-4 text-center">$10^6$</td>
+                            <td class="p-4 text-center"><span class="bg-green-100 text-green-700 px-2 py-1 rounded font-bold text-xs">AC 100% Điểm</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-900 border-b-2 border-teal-500 pb-2 mb-6 flex items-center">
+                <span class="bg-teal-100 text-teal-700 px-3 py-1 rounded-lg mr-3 text-sm">Phần 4</span> Trình Mô Phỏng Tương Tác
+            </h2>
+            <p class="text-slate-600 mb-6">Mô phỏng thuật toán đếm số dư trên mảng cộng dồn.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Nhập K (Số chia):</label>
+                        <input type="number" id="kInput" value="3" class="w-full px-4 py-2 mb-4 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 font-mono text-sm">
+
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Nhập mảng A:</label>
+                        <input type="text" id="arrayInput" value="4 5 0 -2 6" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 font-mono text-sm">
+                        
+                        <div class="flex flex-col gap-3 mt-6">
+                            <button id="btnLoad" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-lg transition shadow-sm">
+                                🔄 Cập Nhật Dữ Liệu
+                            </button>
+                            <div class="flex gap-2">
+                                <button id="btnStep" class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg transition shadow-sm disabled:opacity-50" disabled>
+                                    ⏭ Bước Tiếp
+                                </button>
+                                <button id="btnAuto" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition shadow-sm disabled:opacity-50" disabled>
+                                    ▶ Tự Động
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 border border-slate-200 rounded-xl bg-slate-50 overflow-x-auto">
+                        <h4 class="text-xs font-bold text-slate-500 uppercase mb-3">Mảng A (Chỉ số)</h4>
+                        <div id="visualArray" class="flex gap-2 min-w-max"></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8">
+                    <div class="terminal-bg rounded-xl shadow-inner h-[500px] flex flex-col overflow-hidden border border-slate-800">
+                        <div class="bg-slate-800 px-4 py-2 flex items-center justify-between border-b border-slate-700 shadow-sm">
+                            <div class="flex space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <span class="text-slate-400 text-xs font-mono">Tracer Terminal: Tần suất Số dư</span>
+                        </div>
+                        <div id="terminalBody" class="flex-1 p-4 overflow-y-auto terminal-scroll terminal-text text-sm space-y-1">
+                            <div class="text-slate-500 italic">Nhấn 'Cập Nhật Dữ Liệu' để bắt đầu...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Init Syntax Highlighting
+        hljs.highlightAll();
+
+        // DOM Elements
+        const kInput = document.getElementById('kInput');
+        const arrayInput = document.getElementById('arrayInput');
+        const btnLoad = document.getElementById('btnLoad');
+        const btnStep = document.getElementById('btnStep');
+        const btnAuto = document.getElementById('btnAuto');
+        const terminalBody = document.getElementById('terminalBody');
+        const visualArray = document.getElementById('visualArray');
+
+        // State
+        let arr = [];
+        let K = 0;
+        let simulationTrace = [];
+        let currentStepIndex = 0;
+        let isAutoPlaying = false;
+        let autoPlayInterval = null;
+
+        // Colors Mapping
+        const logColors = {
+            system: 'text-cyan-400',
+            info: 'text-slate-300',
+            warn: 'text-yellow-400',
+            error: 'text-red-400',
+            success: 'text-green-400 font-bold',
+            code: 'text-teal-400',
+            map: 'text-pink-400 font-bold'
+        };
+
+        function printLog(msg, type = 'info') {
+            const line = document.createElement('div');
+            line.className = logColors[type] || logColors.info;
+            line.innerHTML = `<span class="opacity-50">❯</span> ${msg}`;
+            terminalBody.appendChild(line);
+            terminalBody.scrollTop = terminalBody.scrollHeight;
+        }
+
+        function clearTerminal() {
+            terminalBody.innerHTML = '';
+        }
+
+        function renderVisualArray(highlightCurrent = -1) {
+            visualArray.innerHTML = '';
+            arr.forEach((val, idx) => {
+                const box = document.createElement('div');
+                let extraClasses = 'bg-white border-slate-300 text-slate-700';
+                
+                if (idx === highlightCurrent) {
+                    extraClasses = 'bg-yellow-300 border-yellow-600 text-yellow-900 transform scale-110 shadow-md';
+                }
+
+                box.className = `w-12 h-12 flex flex-col items-center justify-center rounded border font-mono text-sm transition-all duration-300 ${extraClasses}`;
+                box.innerHTML = `
+                    <span class="font-bold text-base">${val}</span>
+                    <span class="text-[10px] opacity-70">i=${idx}</span>
+                `;
+                visualArray.appendChild(box);
+            });
+        }
+
+        function buildSimulationTrace() {
+            simulationTrace = [];
+            let freq = { 0: 1 };
+            let currentSum = 0;
+            let count = 0;
+            
+            simulationTrace.push({ msg: `[Khởi tạo] Mảng có ${arr.length} pt. Tìm các dãy con tổng chia hết cho K = ${K}`, type: 'system', current: -1 });
+            simulationTrace.push({ msg: `Cơ sở: freq = { 0: 1 } (Để xử lý trường hợp tổng cộng dồn tự chia hết cho K)`, type: 'map', current: -1 });
+            simulationTrace.push({ msg: `count = 0`, type: 'code', current: -1 });
+            
+            for(let j = 0; j < arr.length; j++) {
+                currentSum += arr[j];
+                // Xử lý an toàn với số âm trong JS
+                let rem = ((currentSum % K) + K) % K;
+
+                simulationTrace.push({ msg: `------------------------------------`, type: 'info', current: j });
+                simulationTrace.push({ msg: `Vị trí j = ${j}, A[${j}] = ${arr[j]}`, type: 'warn', current: j });
+                simulationTrace.push({ msg: `Tổng cộng dồn hiện tại = ${currentSum}`, type: 'info', current: j });
+                simulationTrace.push({ msg: `Tính Số dư rem = (${currentSum} % ${K} + ${K}) % ${K} = ${rem}`, type: 'code', current: j });
+
+                if (freq[rem] !== undefined) {
+                    count += freq[rem];
+                    simulationTrace.push({ msg: `>> TÌM THẤY! Số dư [${rem}] đã từng xuất hiện ${freq[rem]} lần.`, type: 'success', current: j });
+                    simulationTrace.push({ msg: `>> count = count + ${freq[rem]} = ${count}`, type: 'success', current: j });
+                    freq[rem] += 1;
+                } else {
+                    freq[rem] = 1;
+                    simulationTrace.push({ msg: `>> Số dư [${rem}] chưa từng xuất hiện.`, type: 'info', current: j });
+                }
+                simulationTrace.push({ msg: `Cập nhật freq[${rem}] = ${freq[rem]}`, type: 'map', current: j });
+            }
+            simulationTrace.push({ msg: `====================================`, type: 'system', current: -1 });
+            simulationTrace.push({ msg: `✅ TỔNG CỘNG: CÓ ${count} DÃY CON THỎA MÃN`, type: 'success', current: -1 });
+        }
+
+        function executeNextStep() {
+            if (currentStepIndex >= simulationTrace.length) {
+                stopAutoPlay();
+                btnStep.disabled = true;
+                btnAuto.disabled = true;
+                return;
+            }
+
+            const step = simulationTrace[currentStepIndex];
+            printLog(step.msg, step.type);
+            renderVisualArray(step.current);
+            currentStepIndex++;
+        }
+
+        function stopAutoPlay() {
+            isAutoPlaying = false;
+            clearInterval(autoPlayInterval);
+            btnAuto.innerHTML = "▶ Tự Động";
+            btnAuto.classList.replace('bg-red-600', 'bg-green-600');
+            btnAuto.classList.replace('hover:bg-red-700', 'hover:bg-green-700');
+            if (currentStepIndex < simulationTrace.length) {
+                btnStep.disabled = false;
+            }
+        }
+
+        function startAutoPlay() {
+            isAutoPlaying = true;
+            btnStep.disabled = true;
+            btnAuto.innerHTML = "⏸ Tạm Dừng";
+            btnAuto.classList.replace('bg-green-600', 'bg-red-600');
+            btnAuto.classList.replace('hover:bg-green-700', 'hover:bg-red-700');
+            autoPlayInterval = setInterval(executeNextStep, 700);
+        }
+
+        // Event Listeners
+        btnLoad.addEventListener('click', () => {
+            stopAutoPlay();
+            K = parseInt(kInput.value);
+            const inputStr = arrayInput.value.trim();
+            arr = inputStr.split(/\s+/).map(Number).filter(n => !isNaN(n));
+            
+            if (arr.length === 0 || isNaN(K) || K === 0) {
+                clearTerminal();
+                printLog("Lỗi: Dữ liệu không hợp lệ! Đảm bảo K != 0", "error");
+                return;
+            }
+
+            clearTerminal();
+            renderVisualArray(-1);
+            printLog(`Đã nạp Mảng A có ${arr.length} phần tử. K = ${K}`, "system");
+            
+            buildSimulationTrace();
+            
+            currentStepIndex = 0;
+            btnStep.disabled = false;
+            btnAuto.disabled = false;
+        });
+
+        btnStep.addEventListener('click', executeNextStep);
+
+        btnAuto.addEventListener('click', () => {
+            if (isAutoPlaying) stopAutoPlay();
+            else startAutoPlay();
+        });
+
+        // Initialize
+        window.onload = () => btnLoad.click();
+
+    </script>
+</body>
+</html>
