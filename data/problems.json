@@ -88,5 +88,23 @@
     "solution": "problems/5/solution.html",
     "judge_url": "https://ntduong.pythonanywhere.com/",
     "generator": "problems/5/generator.py"
+  },
+  {
+    "id": "6",
+    "title": "Tổng dãy con liên tiếp lớn nhất",
+    "topics": [
+      "List",
+      "Kadane"
+    ],
+    "difficulty": 2,
+    "complexity": "O(N)",
+    "source": "Internet",
+    "tags": [
+      "list",
+      "kadane"
+    ],
+    "solution": "problems/6/solution.html",
+    "judge_url": "https://ntduong.pythonanywhere.com/",
+    "generator": "problems/6/generator.py"
   }
 ]

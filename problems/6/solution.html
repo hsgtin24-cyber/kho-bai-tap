@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Giảng: MAXSUB - Tổng Dãy Con Liên Tiếp Lớn Nhất</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+        .terminal-bg { background-color: #1e1e2e; }
+        .terminal-text { font-family: 'Fira Code', 'Courier New', Courier, monospace; }
+        /* Custom Scrollbar for Terminal */
+        .terminal-scroll::-webkit-scrollbar { width: 8px; }
+        .terminal-scroll::-webkit-scrollbar-track { background: #1e1e2e; }
+        .terminal-scroll::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 4px; }
+        .terminal-scroll::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased pb-20">
+
+    <header class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white shadow-lg py-8 px-6 mb-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold mb-2">MAXSUB - TỔNG DÃY CON LIÊN TIẾP LỚN NHẤT</h1>
+                    <p class="text-blue-100 text-lg">Chuyên đề: Quy hoạch động / Thuật toán Kadane</p>
+                </div>
+                <div class="text-right hidden md:block">
+                    <span class="bg-yellow-400 text-yellow-900 font-bold px-4 py-2 rounded-full shadow-md">Kỳ thi HSG | 100 Điểm</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 space-y-12">
+        
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-900 border-b-2 border-blue-500 pb-2 mb-6 flex items-center">
+                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg mr-3 text-sm">Phần 0</span> Đề Bài Chi Tiết
+            </h2>
+            <div class="prose max-w-none text-slate-700">
+                <p>Trong một dự án nghiên cứu thị trường chứng khoán, một chuyên gia cần tìm ra giai đoạn tăng trưởng mạnh mẽ nhất của một mã cổ phiếu trong vòng <strong>$N$</strong> ngày. Biến động giá trị mỗi ngày được ghi lại dưới dạng một dãy số nguyên, trong đó số dương thể hiện sự tăng trưởng và số âm thể hiện sự sụt giảm.</p>
+                <p class="font-semibold mt-4">Yêu cầu:</p>
+                <p>Cho dãy gồm $N$ số nguyên, bạn hãy giúp chuyên gia tìm ra một dãy con gồm các phần tử liên tiếp sao cho tổng giá trị của chúng là lớn nhất. Nếu tất cả các dãy con đều có tổng âm, chuyên gia có quyền không chọn giai đoạn nào (tổng bằng 0).</p>
+                
+                <h3 class="text-lg font-bold mt-6 mb-2">Dữ liệu vào (Input)</h3>
+                <ul class="list-disc pl-5">
+                    <li><strong>Dòng 1:</strong> Ghi số nguyên dương $N$ ($1 \le N \le 10^6$) là số lượng phần tử của dãy.</li>
+                    <li><strong>Dòng 2:</strong> Ghi $N$ số nguyên $a_1, a_2, \dots, a_n$ ($-10^6 \le a_i \le 10^6$) cách nhau bởi dấu cách.</li>
+                </ul>
+
+                <h3 class="text-lg font-bold mt-6 mb-2">Dữ liệu ra (Output)</h3>
+                <p>Một số nguyên duy nhất là tổng lớn nhất của một dãy con liên tiếp tìm được.</p>
+
+                <h3 class="text-lg font-bold mt-6 mb-3">Ví dụ (Sample Test)</h3>
+                <div class="overflow-hidden rounded-lg border border-slate-300">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-300">
+                                <th class="p-4 font-mono font-bold text-slate-800">MAXSUB.INP</th>
+                                <th class="p-4 font-mono font-bold text-slate-800">MAXSUB.OUT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="divide-x divide-slate-300">
+                                <td class="p-4 font-mono align-top">
+                                    8<br>
+                                    -2 1 -3 4 -1 2 1 -5
+                                </td>
+                                <td class="p-4 font-mono align-top text-blue-700 font-bold">
+                                    6
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="italic text-slate-500 mt-2 text-sm"><span class="font-semibold text-slate-700">Giải thích:</span> Dãy con liên tiếp [4, -1, 2, 1] cho tổng lớn nhất là 6.</p>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-900 border-b-2 border-blue-500 pb-2 mb-6 flex items-center">
+                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg mr-3 text-sm">Phần 1</span> Phân Tích Toán Học & Logic
+            </h2>
+            <div class="space-y-4 text-slate-700">
+                <p><strong>Dạng bài:</strong> Thuật toán tìm dãy con có tổng lớn nhất (Maximum Subarray Sum) - <strong>Thuật toán Kadane</strong>.</p>
+                <p><strong>Mô hình hóa toán học:</strong> Gọi mảng đầu vào là $A$ có $N$ phần tử. Cần tìm $i, j$ ($1 \le i \le j \le N$) sao cho $\sum_{k=i}^{j} A[k]$ đạt giá trị lớn nhất. Nếu tổng lớn nhất nhỏ hơn 0, kết quả trả về là 0.</p>
+                <p>Dựa trên ràng buộc đề bài, nếu ta xét mọi cặp $(i, j)$ thì số lượng mảng con là $\frac{N(N+1)}{2}$. Với $N = 10^6$, $\frac{N^2}{2} \approx 5 \times 10^{11}$ phép toán, vượt qua giới hạn thời gian (thường là $10^8$ phép toán/giây cho 1s). Ta bắt buộc phải tìm một thuật toán có độ phức tạp $O(N)$.</p>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mt-6 rounded-r-lg shadow-sm">
+                    <div class="flex items-start">
+                        <svg class="h-6 w-6 text-yellow-600 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <div>
+                            <h3 class="font-bold text-yellow-800 text-lg">CẢNH BÁO KIỂU DỮ LIỆU & RÀNG BUỘC</h3>
+                            <ul class="list-disc pl-5 mt-2 text-yellow-900 space-y-1">
+                                <li><strong>Tràn số (Integer Overflow):</strong> Tổng các phần tử lớn nhất có thể đạt $10^6 \times 10^6 = 10^{12}$. Giá trị này vượt quá giới hạn của số nguyên 32-bit (khoảng $2 \times 10^9$). Nếu code bằng C++, <strong>BẮT BUỘC</strong> sử dụng kiểu <code>long long</code> cho biến lưu tổng. (Python tự động xử lý số lớn nhưng vẫn cần lưu ý về logic).</li>
+                                <li><strong>Giới hạn thời gian (TLE):</strong> $N \le 10^6$ yêu cầu thuật toán hoạt động trong thời gian $O(N)$ và cần tối ưu hóa các thao tác đọc/ghi (fast I/O) nếu dùng C++/Java.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-900 border-b-2 border-blue-500 pb-2 mb-6 flex items-center">
+                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg mr-3 text-sm">Phần 2</span> Phân Tích Cách Giải
+            </h2>
+
+            <div class="mb-10">
+                <h3 class="text-xl font-bold text-indigo-700 mb-3 flex items-center">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                    Cách 1: Vét cạn (Brute Force) - Đáp ứng Subtask 1 (30% điểm)
+                </h3>
+                <div class="pl-8 space-y-4 border-l-2 border-indigo-200">
+                    <p class="text-slate-700"><strong>Ý tưởng logic:</strong> Dùng hai vòng lặp lồng nhau. Vòng lặp ngoài <code>i</code> xác định điểm bắt đầu của dãy con, vòng lặp trong <code>j</code> duyệt từ <code>i</code> đến cuối mảng để tính tổng dồn và cập nhật kỷ lục tổng lớn nhất. Cách này dễ hiểu nhưng rất chậm với mảng lớn.</p>
+                    <blockquote class="bg-indigo-50 border-l-4 border-indigo-400 p-4 text-slate-700 italic rounded-r-lg font-serif">
+                        Khởi tạo max_sum = 0<br>
+                        Với mỗi vị trí bắt đầu i từ 1 đến N:<br>
+                        &nbsp;&nbsp;Khởi tạo current_sum = 0<br>
+                        &nbsp;&nbsp;Duyệt vị trí kết thúc j từ i đến N:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;current_sum = current_sum + a[j]<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Nếu current_sum > max_sum thì max_sum = current_sum<br>
+                        Trả về max_sum
+                    </blockquote>
+<pre><code class="language-python rounded-lg shadow-md text-sm" style="font-family: 'Fira Code', monospace;">def maxSubArray_BruteForce(a):
+    n = len(a)
+    max_sum = 0
+    for i in range(n):
+        current_sum = 0
+        for j in range(i, n):
+            current_sum += a[j]
+            if current_sum > max_sum:
+                max_sum = current_sum
+    return max_sum
+</code></pre>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-bold text-green-700 mb-3 flex items-center">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    Cách 2: Thuật toán Kadane (Tối ưu) - Đáp ứng 100% điểm
+                </h3>
+                <div class="pl-8 space-y-4 border-l-2 border-green-200">
+                    <p class="text-slate-700"><strong>Ý tưởng logic:</strong> Ta duyệt qua mảng duy nhất 1 lần. Tại mỗi phần tử, ta cộng dồn vào <code>current_sum</code>. Nếu <code>current_sum</code> mang giá trị âm, nó sẽ kéo tụt tổng của phần còn lại của mảng. Do đó, ta mạnh dạn "vứt bỏ" đoạn trước đó và reset <code>current_sum = 0</code>. Ở mỗi bước, luôn kiểm tra và cập nhật <code>max_so_far</code>.</p>
+                    <blockquote class="bg-green-50 border-l-4 border-green-400 p-4 text-slate-700 italic rounded-r-lg font-serif">
+                        Khởi tạo max_so_far = 0, current_sum = 0<br>
+                        Duyệt từng phần tử x trong mảng A:<br>
+                        &nbsp;&nbsp;current_sum = current_sum + x<br>
+                        &nbsp;&nbsp;Nếu current_sum < 0 thì current_sum = 0 (Bắt đầu dãy con mới)<br>
+                        &nbsp;&nbsp;Nếu current_sum > max_so_far thì max_so_far = current_sum<br>
+                        Trả về max_so_far
+                    </blockquote>
+<pre><code class="language-python rounded-lg shadow-md text-sm" style="font-family: 'Fira Code', monospace;">def maxSubArray_Kadane(a):
+    max_so_far = 0
+    current_sum = 0
+    for x in a:
+        current_sum += x
+        if current_sum < 0:
+            current_sum = 0  # Bỏ qua đoạn mang tổng âm
+        if current_sum > max_so_far:
+            max_so_far = current_sum
+    return max_so_far
+</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-900 border-b-2 border-blue-500 pb-2 mb-6 flex items-center">
+                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg mr-3 text-sm">Phần 3</span> Bảng So Sánh Thuật Toán
+            </h2>
+            <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-slate-800 text-white">
+                        <tr>
+                            <th class="p-4 font-semibold">Thuật toán</th>
+                            <th class="p-4 font-semibold">Độ phức tạp Thời gian</th>
+                            <th class="p-4 font-semibold">Độ phức tạp Không gian</th>
+                            <th class="p-4 font-semibold text-center">Subtask 1 ($10^3$)</th>
+                            <th class="p-4 font-semibold text-center">Subtask 2,3 ($10^6$)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 font-medium text-slate-900">Cách 1: Vét cạn</td>
+                            <td class="p-4">$O(N^2)$</td>
+                            <td class="p-4">$O(1)$</td>
+                            <td class="p-4 text-center"><span class="bg-green-100 text-green-700 px-2 py-1 rounded font-bold text-xs">AC</span></td>
+                            <td class="p-4 text-center"><span class="bg-red-100 text-red-700 px-2 py-1 rounded font-bold text-xs">TLE</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition bg-green-50">
+                            <td class="p-4 font-bold text-green-800">Cách 2: Kadane</td>
+                            <td class="p-4 font-bold text-green-800">$O(N)$</td>
+                            <td class="p-4 text-green-800">$O(1)$</td>
+                            <td class="p-4 text-center"><span class="bg-green-100 text-green-700 px-2 py-1 rounded font-bold text-xs">AC</span></td>
+                            <td class="p-4 text-center"><span class="bg-green-100 text-green-700 px-2 py-1 rounded font-bold text-xs">AC</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+            <h2 class="text-2xl font-bold text-slate-900 border-b-2 border-blue-500 pb-2 mb-6 flex items-center">
+                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg mr-3 text-sm">Phần 4</span> Trình Mô Phỏng Tương Tác (Visualizer)
+            </h2>
+            <p class="text-slate-600 mb-6">Mô phỏng từng bước chạy của thuật toán để quan sát sự thay đổi của các biến số.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Nhập mảng (Cách nhau bởi dấu cách):</label>
+                        <input type="text" id="arrayInput" value="-2 1 -3 4 -1 2 1 -5" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm">
+                        
+                        <label class="block text-sm font-bold text-slate-700 mb-2 mt-4">Chọn Thuật toán:</label>
+                        <select id="algoSelect" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                            <option value="kadane">Kadane (O(N)) - Khuyên dùng</option>
+                            <option value="brute">Vét cạn (O(N^2))</option>
+                        </select>
+
+                        <div class="flex flex-col gap-3 mt-6">
+                            <button id="btnLoad" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition shadow-sm">
+                                🔄 Nạp Dữ Liệu
+                            </button>
+                            <div class="flex gap-2">
+                                <button id="btnStep" class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg transition shadow-sm disabled:opacity-50" disabled>
+                                    ⏭ Bước Tiếp
+                                </button>
+                                <button id="btnAuto" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition shadow-sm disabled:opacity-50" disabled>
+                                    ▶ Chạy Tự Động
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 border border-slate-200 rounded-xl bg-slate-50 overflow-x-auto">
+                        <h4 class="text-xs font-bold text-slate-500 uppercase mb-3">Mảng hiện tại</h4>
+                        <div id="visualArray" class="flex gap-2 min-w-max">
+                            </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8">
+                    <div class="terminal-bg rounded-xl shadow-inner h-[500px] flex flex-col overflow-hidden border border-slate-800">
+                        <div class="bg-slate-800 px-4 py-2 flex items-center justify-between border-b border-slate-700 shadow-sm">
+                            <div class="flex space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <span class="text-slate-400 text-xs font-mono">Tracer Terminal</span>
+                        </div>
+                        <div id="terminalBody" class="flex-1 p-4 overflow-y-auto terminal-scroll terminal-text text-sm">
+                            <div class="text-slate-500 italic">Nhấn 'Nạp Dữ Liệu' để bắt đầu...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Khởi tạo highlight code syntax
+        hljs.highlightAll();
+
+        // JS Logic cho Visualizer
+        const arrayInput = document.getElementById('arrayInput');
+        const algoSelect = document.getElementById('algoSelect');
+        const btnLoad = document.getElementById('btnLoad');
+        const btnStep = document.getElementById('btnStep');
+        const btnAuto = document.getElementById('btnAuto');
+        const terminalBody = document.getElementById('terminalBody');
+        const visualArray = document.getElementById('visualArray');
+
+        let arr = [];
+        let simulationTrace = [];
+        let currentStepIndex = 0;
+        let isAutoPlaying = false;
+        let autoPlayInterval = null;
+
+        // Định dạng màu Terminal
+        const logColors = {
+            system: 'text-cyan-400',
+            info: 'text-slate-300',
+            warn: 'text-yellow-400',
+            error: 'text-red-400',
+            success: 'text-green-400 font-bold',
+            code: 'text-purple-400'
+        };
+
+        function printLog(msg, type = 'info') {
+            const line = document.createElement('div');
+            line.className = `mb-1 ${logColors[type] || logColors.info}`;
+            line.innerHTML = `> ${msg}`;
+            terminalBody.appendChild(line);
+            terminalBody.scrollTop = terminalBody.scrollHeight;
+        }
+
+        function clearTerminal() {
+            terminalBody.innerHTML = '';
+        }
+
+        function renderVisualArray(highlightIndices = []) {
+            visualArray.innerHTML = '';
+            arr.forEach((val, idx) => {
+                const box = document.createElement('div');
+                const isHighlight = highlightIndices.includes(idx);
+                box.className = `w-10 h-10 flex flex-col items-center justify-center rounded border shadow-sm font-mono text-sm transition-all duration-300 
+                    ${isHighlight ? 'bg-yellow-400 border-yellow-600 text-yellow-900 transform scale-110' : 'bg-white border-slate-300 text-slate-700'}`;
+                
+                box.innerHTML = `
+                    <span class="font-bold">${val}</span>
+                    <span class="text-[10px] opacity-60">i=${idx}</span>
+                `;
+                visualArray.appendChild(box);
+            });
+        }
+
+        function buildKadaneTrace() {
+            simulationTrace = [];
+            let maxSoFar = 0;
+            let currentSum = 0;
+            
+            simulationTrace.push({ msg: "Bắt đầu thuật toán Kadane O(N)", type: "system", hl: [] });
+            simulationTrace.push({ msg: "Khởi tạo: max_so_far = 0, current_sum = 0", type: "code", hl: [] });
+            
+            for(let i = 0; i < arr.length; i++) {
+                simulationTrace.push({ msg: `------------------------------------`, type: "info", hl: [i] });
+                simulationTrace.push({ msg: `Xét phần tử a[${i}] = ${arr[i]}`, type: "warn", hl: [i] });
+                
+                let oldSum = currentSum;
+                currentSum += arr[i];
+                simulationTrace.push({ msg: `Cộng dồn: current_sum = ${oldSum} + (${arr[i]}) = ${currentSum}`, type: "info", hl: [i] });
+                
+                if(currentSum < 0) {
+                    simulationTrace.push({ msg: `Phát hiện current_sum < 0. Reset current_sum = 0 để cắt bỏ đoạn âm!`, type: "error", hl: [i] });
+                    currentSum = 0;
+                }
+                
+                if(currentSum > maxSoFar) {
+                    simulationTrace.push({ msg: `🎉 Kỷ lục mới! Cập nhật max_so_far = ${currentSum} (Kỷ lục cũ: ${maxSoFar})`, type: "success", hl: [i] });
+                    maxSoFar = currentSum;
+                } else {
+                    simulationTrace.push({ msg: `max_so_far không đổi: ${maxSoFar}`, type: "info", hl: [i] });
+                }
+            }
+            simulationTrace.push({ msg: `====================================`, type: "system", hl: [] });
+            simulationTrace.push({ msg: `✅ THUẬT TOÁN KẾT THÚC. KẾT QUẢ CUỐI CÙNG: ${maxSoFar}`, type: "success", hl: [] });
+        }
+
+        function buildBruteForceTrace() {
+            simulationTrace = [];
+            let maxSum = 0;
+            
+            simulationTrace.push({ msg: "Bắt đầu thuật toán Vét cạn O(N²)", type: "system", hl: [] });
+            simulationTrace.push({ msg: "Khởi tạo: max_sum = 0", type: "code", hl: [] });
+            
+            for(let i = 0; i < arr.length; i++) {
+                let currentSum = 0;
+                simulationTrace.push({ msg: `--- Bắt đầu mảng con mới tại i = ${i} ---`, type: "warn", hl: [i] });
+                
+                for(let j = i; j < arr.length; j++) {
+                    let oldSum = currentSum;
+                    currentSum += arr[j];
+                    
+                    let activeIndices = [];
+                    for(let k=i; k<=j; k++) activeIndices.push(k);
+                    
+                    simulationTrace.push({ msg: `Duyệt j = ${j} (phần tử ${arr[j]}): current_sum = ${oldSum} + (${arr[j]}) = ${currentSum}`, type: "info", hl: activeIndices });
+                    
+                    if(currentSum > maxSum) {
+                        simulationTrace.push({ msg: `🎉 Cập nhật max_sum = ${currentSum}`, type: "success", hl: activeIndices });
+                        maxSum = currentSum;
+                    }
+                }
+            }
+            simulationTrace.push({ msg: `====================================`, type: "system", hl: [] });
+            simulationTrace.push({ msg: `✅ THUẬT TOÁN KẾT THÚC. KẾT QUẢ CUỐI CÙNG: ${maxSum}`, type: "success", hl: [] });
+        }
+
+        function executeNextStep() {
+            if (currentStepIndex >= simulationTrace.length) {
+                stopAutoPlay();
+                btnStep.disabled = true;
+                btnAuto.disabled = true;
+                btnAuto.innerHTML = "▶ Chạy Tự Động";
+                return;
+            }
+
+            const step = simulationTrace[currentStepIndex];
+            printLog(step.msg, step.type);
+            renderVisualArray(step.hl);
+            currentStepIndex++;
+        }
+
+        function stopAutoPlay() {
+            isAutoPlaying = false;
+            clearInterval(autoPlayInterval);
+            btnAuto.innerHTML = "▶ Chạy Tự Động";
+            btnAuto.classList.replace('bg-red-600', 'bg-green-600');
+            btnAuto.classList.replace('hover:bg-red-700', 'hover:bg-green-700');
+            if (currentStepIndex < simulationTrace.length) {
+                btnStep.disabled = false;
+            }
+        }
+
+        function startAutoPlay() {
+            isAutoPlaying = true;
+            btnStep.disabled = true;
+            btnAuto.innerHTML = "⏸ Tạm Dừng";
+            btnAuto.classList.replace('bg-green-600', 'bg-red-600');
+            btnAuto.classList.replace('hover:bg-green-700', 'hover:bg-red-700');
+            autoPlayInterval = setInterval(executeNextStep, 800);
+        }
+
+        // Sự kiện
+        btnLoad.addEventListener('click', () => {
+            stopAutoPlay();
+            const inputStr = arrayInput.value.trim();
+            arr = inputStr.split(/\s+/).map(Number).filter(n => !isNaN(n));
+            
+            if (arr.length === 0) {
+                clearTerminal();
+                printLog("Lỗi: Mảng rỗng hoặc định dạng không đúng!", "error");
+                return;
+            }
+
+            clearTerminal();
+            renderVisualArray([]);
+            printLog(`Đã nạp mảng: [${arr.join(', ')}]`, "system");
+            printLog(`Độ dài mảng N = ${arr.length}`, "system");
+            
+            const algo = algoSelect.value;
+            if (algo === 'kadane') {
+                buildKadaneTrace();
+            } else {
+                buildBruteForceTrace();
+            }
+
+            currentStepIndex = 0;
+            btnStep.disabled = false;
+            btnAuto.disabled = false;
+            printLog("Sẵn sàng mô phỏng. Nhấn 'Bước Tiếp' hoặc 'Chạy Tự Động'.", "info");
+        });
+
+        btnStep.addEventListener('click', () => {
+            executeNextStep();
+        });
+
+        btnAuto.addEventListener('click', () => {
+            if (isAutoPlaying) {
+                stopAutoPlay();
+            } else {
+                startAutoPlay();
+            }
+        });
+
+        // Trigger load on start
+        window.onload = () => {
+            btnLoad.click();
+        };
+
+    </script>
+</body>
+</html>
