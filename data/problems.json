@@ -106,5 +106,25 @@
     "solution": "problems/6/solution.html",
     "judge_url": "https://ntduong.pythonanywhere.com/",
     "generator": "problems/6/generator.py"
+  },
+  {
+    "id": "7",
+    "title": "Tìm dãy con có tổng bằng K",
+    "topics": [
+      "List",
+      "Prefix Sum",
+      "Hash Map"
+    ],
+    "difficulty": 2,
+    "complexity": "O(N)",
+    "source": "Internet",
+    "tags": [
+      "list",
+      "prefix sum",
+      "hash map"
+    ],
+    "solution": "problems/7/solution.html",
+    "judge_url": "https://ntduong.pythonanywhere.com/",
+    "generator": "problems/7/generator.py"
   }
 ]
